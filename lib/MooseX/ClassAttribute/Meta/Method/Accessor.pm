@@ -42,17 +42,5 @@ sub _inline_get {
     return sprintf q{$%s::__ClassAttribute{'%s'}}, $attr->associated_class()->name(), $slot_name;
 }
 
-sub generate_accessor_method {
-    shift->generate_accessor_method_inline(@_);
-}
-
-sub generate_reader_method {
-    shift->generate_reader_method_inline(@_);
-}
-
-sub generate_writer_method {
-    shift->generate_writer_method_inline(@_);
-}
-
 
 1;
