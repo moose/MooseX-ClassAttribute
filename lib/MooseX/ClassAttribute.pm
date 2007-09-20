@@ -4,6 +4,28 @@ use warnings;
 use strict;
 
 our $VERSION = '0.01';
+our $AUTHORITY = 'cpan:DROLSKY';
+
+use Moose;
+use MooseX::ClassAttribute::Meta::Method::Accessor;
+
+extends 'Moose::Meta::Attribute';
+
+sub accessor_metaclass { 'MooseX::ClassAttribute::Meta::Method::Accessor' }
+
+# This is called when an object is constructed.
+sub initialize_instance_slot
+{
+    return;
+}
+
+
+# This is the bit of magic that lets you specify the metaclass as
+# 'ClassAttribute', rather than the full name, when creating an
+# attribute.
+package Moose::Meta::Attribute::Custom::ClassAttribute;
+
+sub register_implementation { 'MooseX::ClassAttribute' }
 
 
 1;
@@ -16,7 +38,6 @@ __END__
 
 MooseX::ClassAttribute - The fantastic new MooseX::ClassAttribute!
 
-
 =head1 SYNOPSIS
 
 Quick summary of what the module does.
@@ -25,7 +46,7 @@ Perhaps a little code snippet.
 
     use MooseX::ClassAttribute;
 
-    my $foo = MooseX::ClassAttribute->new;
+    my $foo = MooseX::ClassAttribute->new();
 
     ...
 
