@@ -159,6 +159,10 @@ You can use any feature of Moose's attribute declarations, including
 overriding a parent's attributes, delegation (C<handles>), and
 attribute metaclasses, and it should just work.
 
+The accessors methods for class attribute may be called on the class
+directly, or on objects of that class. Passing a class attribute to
+the constructor will not set it.
+
 =head1 FUNCTIONS
 
 This class exports one function when you use it, C<class_has()>. This
