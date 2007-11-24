@@ -4,7 +4,18 @@ use strict;
 use warnings;
 
 use Scalar::Util qw( isweak );
-use Test::More tests => 9;
+use Test::More;
+
+my $HasMXAH;
+BEGIN
+{
+    if ( eval 'use MooseX::AttributeHelpers; 1;' )
+    {
+        $HasMXAH = 1;
+    }
+}
+
+plan tests => 25;
 
 
 {
@@ -13,19 +24,67 @@ use Test::More tests => 9;
     use Moose;
     use MooseX::ClassAttribute;
 
-    has 'ObjectCount' =>
-        ( metaclass => 'ClassAttribute',
-          is        => 'rw',
+    use vars qw($Lazy);
+    $Lazy = 0;
+
+    class_has 'ObjectCount' =>
+        ( is        => 'rw',
           isa       => 'Int',
           default   => 0,
         );
 
-    has 'WeakAttribute' =>
-        ( metaclass => 'ClassAttribute',
-          is        => 'rw',
+    class_has 'WeakAttribute' =>
+        ( is        => 'rw',
           isa       => 'Object',
           weak_ref  => 1,
         );
+
+    class_has 'LazyAttribute' =>
+        ( is      => 'rw',
+          isa     => 'Int',
+          lazy    => 1,
+          # The side effect is used to test that this was called
+          # lazily.
+          default => sub { $Lazy = 1 },
+        );
+
+    class_has 'ReadOnlyAttribute' =>
+        ( is      => 'ro',
+          isa     => 'Int',
+          default => 10,
+        );
+
+    class_has 'ManyNames' =>
+        ( is        => 'rw',
+          isa       => 'Int',
+          reader    => 'M',
+          writer    => 'SetM',
+          clearer   => 'ClearM',
+          predicate => 'HasM',
+        );
+
+    class_has 'Delegatee' =>
+        ( is      => 'rw',
+          isa     => 'Delegatee',
+          handles => [ 'units', 'color' ],
+          default => sub { Delegatee->new() },
+        );
+
+    if ($HasMXAH)
+    {
+        class_has 'Mapping' =>
+            ( metaclass => 'Collection::Hash',
+              is        => 'rw',
+              isa       => 'HashRef[Str]',
+              default   => sub { {} },
+              provides  =>
+              { exists => 'ExistsInMapping',
+                keys   => 'IdsInMapping',
+                get    => 'GetMapping',
+                set    => 'SetMapping',
+              },
+            );
+    }
 
     has 'size' =>
         ( is      => 'rw',
@@ -33,12 +92,52 @@ use Test::More tests => 9;
           default => 5,
         );
 
+    no Moose;
+    no MooseX::ClassAttribute;
+
     sub BUILD
     {
         my $self = shift;
 
         $self->ObjectCount( $self->ObjectCount() + 1 );
     }
+
+    sub make_immutable
+    {
+        my $class = shift;
+
+        $class->meta()->make_immutable();
+        MooseX::ClassAttribute::container_class()->meta()->make_immutable();
+        Delegatee->meta()->make_immutable();
+    }
+}
+
+{
+    package Delegatee;
+
+    use Moose;
+
+    has 'units' =>
+        ( is      => 'ro',
+          default => 5,
+        );
+
+    has 'color' =>
+        ( is      => 'ro',
+          default => 'blue',
+        );
+}
+
+{
+    package Child;
+
+    use Moose;
+    use MooseX::ClassAttribute;
+
+    extends 'HasClassAttribute';
+
+    class_has '+ReadOnlyAttribute' =>
+        ( default => 30 );
 }
 
 sub run_tests
@@ -65,10 +164,10 @@ sub run_tests
     }
 
     {
-        eval { HasClassAttribute->new( ObjectCount => 20 ) };
-        like( $@, qr/\QCannot set a class attribute via the constructor (ObjectCount)/,
-              'passing a class attribute to the constructor throws an error' );
-        is( HasClassAttribute->ObjectCount(), 2,
+        my $hca3 = HasClassAttribute->new( ObjectCount => 20 );
+        is( $hca3->ObjectCount(), 3,
+            'class attributes passed to the constructor do not get set in the object' );
+        is( HasClassAttribute->ObjectCount(), 3,
             'class attributes are not affected by constructor params' );
     }
 
@@ -81,6 +180,78 @@ sub run_tests
 
         ok( ! defined HasClassAttribute->WeakAttribute(),
             'weak class attributes are weak' );
+    }
+
+    {
+        is( $HasClassAttribute::Lazy, 0,
+            '$HasClassAttribute::Lazy is 0' );
+
+        is( HasClassAttribute->LazyAttribute(), 1,
+            'HasClassAttribute->LazyAttribute() is 1' );
+
+        is( $HasClassAttribute::Lazy, 1,
+            '$HasClassAttribute::Lazy is 1 after calling LazyAttribute' );
+    }
+
+    {
+        eval { HasClassAttribute->ReadOnlyAttribute(20) };
+        like( $@, qr/\QCannot assign a value to a read-only accessor/,
+              'cannot set read-only class attribute' );
+    }
+
+    {
+        is( Child->ReadOnlyAttribute(), 30,
+            q{Child class can extend parent's class attribute} );
+    }
+
+    {
+        ok( ! HasClassAttribute->HasM(),
+            'HasM() returns false before M is set' );
+
+        HasClassAttribute->SetM(22);
+
+        ok( HasClassAttribute->HasM(),
+            'HasM() returns true after M is set' );
+        is( HasClassAttribute->M(), 22,
+            'M() returns 22' );
+
+        HasClassAttribute->ClearM();
+
+        ok( ! HasClassAttribute->HasM(),
+            'HasM() returns false after M is cleared' );
+    }
+
+    {
+        isa_ok( HasClassAttribute->Delegatee(), 'Delegatee',
+                'has a Delegetee object' );
+        is( HasClassAttribute->units(), 5,
+            'units() delegates to Delegatee and returns 5' );
+    }
+
+    {
+        ok( ! HasClassAttribute->can('class_has'),
+            q{'no MooseX::ClassAttribute' remove class_has from HasClassAttribute} );
+    }
+
+ SKIP:
+    {
+        skip 'These tests require MooseX::AttributeHelpers', 4
+            unless $HasMXAH;
+
+        my @ids = HasClassAttribute->IdsInMapping();
+        is( scalar @ids, 0,
+            'there are no keys in the mapping yet' );
+
+        ok( ! HasClassAttribute->ExistsInMapping('a'),
+            'key does not exist in mapping' );
+
+        HasClassAttribute->SetMapping( a => 20 );
+
+        ok( HasClassAttribute->ExistsInMapping('a'),
+            'key does exist in mapping' );
+
+        is( HasClassAttribute->GetMapping('a'), 20,
+            'value for a in mapping is 20' );
     }
 }
 
