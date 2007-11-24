@@ -35,9 +35,9 @@ use Test::More tests => 9;
 
     sub BUILD
     {
-        my $class = shift;
+        my $self = shift;
 
-        $class->ObjectCount( $class->ObjectCount() + 1 );
+        $self->ObjectCount( $self->ObjectCount() + 1 );
     }
 }
 
@@ -65,10 +65,10 @@ sub run_tests
     }
 
     {
-        my $hca3 = HasClassAttribute->new( ObjectCount => 20 );
-        is( $hca3->ObjectCount(), 3,
-            'class attributes are not affected by constructor params' );
-        is( HasClassAttribute->ObjectCount(), 3,
+        eval { HasClassAttribute->new( ObjectCount => 20 ) };
+        like( $@, qr/\QCannot set a class attribute via the constructor (ObjectCount)/,
+              'passing a class attribute to the constructor throws an error' );
+        is( HasClassAttribute->ObjectCount(), 2,
             'class attributes are not affected by constructor params' );
     }
 
@@ -77,7 +77,9 @@ sub run_tests
 
         HasClassAttribute->WeakAttribute($object);
 
-        ok( isweak( $HasClassAttribute::__ClassAttribute{WeakAttribute} ),
+        undef $object;
+
+        ok( ! defined HasClassAttribute->WeakAttribute(),
             'weak class attributes are weak' );
     }
 }
