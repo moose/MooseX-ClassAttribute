@@ -11,17 +11,27 @@ use MooseX::ClassAttribute::Meta::Method::Accessor;
 
 extends 'Moose::Meta::Attribute';
 
+
 sub accessor_metaclass { 'MooseX::ClassAttribute::Meta::Method::Accessor' }
 
 # This is called when an object is constructed.
 sub initialize_instance_slot
 {
+    my ( $self, $meta_instance, $instance, $params ) = @_;
+
+    return unless $self->has_init_arg();
+
+    my $init_arg = $self->init_arg();
+
+    confess "Cannot set a class attribute via the constructor ($init_arg)"
+        if exists $params->{$init_arg};
+
     return;
 }
 
 
 # This is the bit of magic that lets you specify the metaclass as
-# 'ClassAttribute', rather than the full name, when creating an
+# 'ClassAttribute' rather than the full name when creating an
 # attribute.
 package Moose::Meta::Attribute::Custom::ClassAttribute;
 
