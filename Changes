@@ -1,3 +1,10 @@
+0.02   2007-11-25
+
+- Inherit from Exporter, rather than trying to import its
+  import(). Unfortunately, older Exporters as shipped with Perl 5.6.x
+  only allow subclassing.
+
+
 0.01   2007-11-24
 
-* First version, released on an unsuspecting world.
+- First version, released on an unsuspecting world.

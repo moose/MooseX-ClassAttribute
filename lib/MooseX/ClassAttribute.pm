@@ -3,11 +3,11 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 our $AUTHORITY = 'cpan:DROLSKY';
 
 our @EXPORT = 'class_has'; ## no critic ProhibitAutomaticExportation
-use Exporter qw( import );
+use base 'Exporter';
 
 use B qw( svref_2object );
 use Sub::Name;
