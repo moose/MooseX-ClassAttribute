@@ -10,6 +10,7 @@ our @EXPORT = 'class_has'; ## no critic ProhibitAutomaticExportation
 use base 'Exporter';
 
 use B qw( svref_2object );
+use Moose::Meta::Class;
 use Sub::Name;
 
 
