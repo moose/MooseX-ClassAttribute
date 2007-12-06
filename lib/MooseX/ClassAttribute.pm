@@ -87,7 +87,7 @@ sub class_has ## no critic RequireArgUnpacking
 # This is basically copied from Moose.pm
 sub unimport ## no critic RequireFinalReturn
 {
-    my $caller = caller();
+    my $caller = Moose::_get_caller(@_);
 
     no strict 'refs'; ## no critic ProhibitNoStrict
     foreach my $name (@EXPORT)
