@@ -23,8 +23,7 @@ sub class_has ## no critic RequireArgUnpacking
 
     my $container_pkg = _make_container_class( $caller, @parents );
 
-    my $has = $container_pkg->can('has');
-    $has->(@_);
+    $container_pkg->meta()->_process_attribute(@_);
 
     my $container_meta = $container_pkg->meta();
     for my $meth ( grep { $_ ne 'instance' } $container_meta->get_method_list() )
@@ -56,28 +55,22 @@ sub class_has ## no critic RequireArgUnpacking
 
         my @parents = map { container_class($_) || () } @_;
 
+        push @parents, 'Moose::Object'
+            unless grep { $_->isa('Moose::Object') } @parents;
+
         my $container_pkg = 'MooseX::ClassAttribute::Container::' . $caller;
 
-        my $code = "package $container_pkg;\n";
-        $code .= "use Moose;\n\n";
+        my $instance_meth = sub {
+            no strict 'refs'; ## no critic ProhibitNoStrict
+            return ${ $container_pkg . '::Self' } ||= shift->new(@_);
+        };
 
-        if (@parents)
-        {
-            $code .= "extends qw( @parents );\n";
-        }
-
-        $code .= <<'EOF';
-
-my $Self;
-sub instance
-{
-    return $Self ||= shift->new(@_);
-}
-EOF
-
-
-        eval $code; ## no critic ProhibitStringyEval
-        die $@ if $@;
+        my $class =
+            Moose::Meta::Class->create
+                ( $container_pkg =>
+                  superclasses => \@parents,
+                  methods      => { instance => $instance_meth },
+                );
 
         return $Name{$caller} = $container_pkg;
     }
