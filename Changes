@@ -1,3 +1,10 @@
+0.03   2007-12-08
+
+- Split main functionality out of sugar sub class_has(), into
+  process_class_attribute(). This makes it easier to create attributes
+  on behalf of other classes.
+
+
 0.02   2007-11-25
 
 - Inherit from Exporter, rather than trying to import its
