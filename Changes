@@ -1,3 +1,8 @@
+0.04   2008-01-21
+
+- An internals change to make this class work with Moose 0.34.
+
+
 0.03   2007-12-08
 
 - Split main functionality out of sugar sub class_has(), into
