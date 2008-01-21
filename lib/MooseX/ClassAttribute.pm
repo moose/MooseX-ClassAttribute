@@ -34,7 +34,7 @@ sub process_class_attribute ## no critic RequireArgUnpacking
     my $container_pkg = _make_container_class( $caller, @parents );
     my $container_meta = $container_pkg->meta();
 
-    $container_meta->_process_attribute(@_);
+    $container_meta->add_attribute(@_);
 
     for my $meth ( grep { $_ ne 'instance' } $container_meta->get_method_list() )
     {
