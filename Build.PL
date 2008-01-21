@@ -8,7 +8,7 @@ my $builder = Module::Build->new
       license             => 'perl',
       requires            => { 'B'          => 0,
                                'Exporter'   => 0,
-                               'Moose'      => 0.26,
+                               'Moose'      => 0.34,
                                'Sub::Name'  => 0,
                              },
       build_requires      => { 'Scalar::Util' => 0,
