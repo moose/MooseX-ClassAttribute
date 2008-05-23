@@ -5,7 +5,7 @@ use lib 't/lib';
 
 use SharedTests;
 
-HasClassAttribute->make_immutable();
-Child->make_immutable();
+HasClassAttribute->meta()->make_immutable();
+Child->meta()->make_immutable();
 
 SharedTests::run_tests();
