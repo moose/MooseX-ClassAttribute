@@ -141,7 +141,7 @@ MooseX::ClassAttribute - Declare class attributes Moose-style
         );
 
     __PACKAGE__->meta()->make_immutable();
-    MooseX::ClassAttribute::containing_class()->meta()->make_immutable();
+    MooseX::ClassAttribute::container_class()->meta()->make_immutable();
 
     no Moose;
     no MooseX::ClassAttribute;
@@ -193,10 +193,10 @@ for which you're creating class attributes. You don't need to worry
 about this too much, except when it comes to making a class immutable.
 
 Since the class attributes are not really stored in your class, you
-need to make the containing class immutable as well as your own ...
+need to make the container class immutable as well as your own ...
 
   __PACKAGE__->meta()->make_immutable();
-  MooseX::ClassAttribute::containing_class()->meta()->make_immutable();
+  MooseX::ClassAttribute::container_class()->meta()->make_immutable();
 
 I<This may change in the future!>
 
