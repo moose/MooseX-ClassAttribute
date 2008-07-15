@@ -69,10 +69,11 @@ sub process_class_attribute ## no critic RequireArgUnpacking
             unless grep { $_->isa('Moose::Object') } @parents;
 
         my $container_pkg = 'MooseX::ClassAttribute::Container::' . $caller;
+        my $instance_holder = $container_pkg . '::Self';
 
         my $instance_meth = sub {
             no strict 'refs'; ## no critic ProhibitNoStrict
-            return ${ $container_pkg . '::Self' } ||= shift->new(@_);
+            return $$instance_holder ||= shift->new(@_);
         };
 
         my $class =
