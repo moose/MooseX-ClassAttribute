@@ -9,7 +9,7 @@ use Test::More;
 my $HasMXAH;
 BEGIN
 {
-    if ( eval 'use MooseX::AttributeHelpers; 1;' )
+    if ( eval 'use MooseX::AttributeHelpers 0.09; 1;' )
     {
         $HasMXAH = 1;
     }
@@ -21,7 +21,7 @@ plan tests => 25;
 {
     package HasClassAttribute;
 
-    use Moose;
+    use Moose qw( has );
     use MooseX::ClassAttribute;
 
     use vars qw($Lazy);
