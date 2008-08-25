@@ -9,7 +9,7 @@ use Test::More;
 my $HasMXAH;
 BEGIN
 {
-    if ( eval 'use MooseX::AttributeHelpers 0.09; 1;' )
+    if ( eval 'use MooseX::AttributeHelpers 0.12; 1;' )
     {
         $HasMXAH = 1;
     }
