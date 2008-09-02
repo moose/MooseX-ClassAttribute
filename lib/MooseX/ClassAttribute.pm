@@ -3,120 +3,44 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 our $AUTHORITY = 'cpan:DROLSKY';
 
-our @EXPORT = 'class_has'; ## no critic ProhibitAutomaticExportation
-use base 'Exporter';
+use Moose ();
+use Moose::Exporter;
+use MooseX::ClassAttribute::Role::Meta::Class;
 
-use B qw( svref_2object );
-use Moose::Meta::Class;
-use Sub::Name;
+Moose::Exporter->setup_import_methods
+    ( with_caller => [ 'class_has' ] );
 
 
-sub class_has ## no critic RequireArgUnpacking
+sub init_meta
 {
-    my $caller = caller();
+    shift;
+    my %p = @_;
 
-    process_class_attribute( $caller, @_ );
+    Moose->init_meta(%p);
 
-    return;
+    return
+        Moose::Util::MetaRole::apply_metaclass_roles
+            ( for_class       => $p{for_class},
+              metaclass_roles => [ 'MooseX::ClassAttribute::Role::Meta::Class' ],
+            );
 }
 
-sub process_class_attribute ## no critic RequireArgUnpacking
+sub class_has
 {
-    my $caller = shift;
+    my $caller  = shift;
+    my $name    = shift;
+    my %options = @_;
 
-    my $caller_meta = $caller->meta();
+    my $attrs = ref $name eq 'ARRAY' ? $name : [$name];
 
-    my @parents = $caller_meta->superclasses();
-
-    my $container_pkg = _make_container_class( $caller, @parents );
-    my $container_meta = $container_pkg->meta();
-
-    $container_meta->add_attribute(@_);
-
-    for my $meth ( grep { $_ ne 'instance' } $container_meta->get_method_list() )
-    {
-        next if $caller_meta->has_method($meth);
-
-        my $sub = sub { shift;
-                        my $instance = $container_pkg->instance();
-                        return $instance->$meth(@_); };
-
-        $caller_meta->add_method( $meth => $sub );
-    }
-
-    return;
+    Class::MOP::Class
+            ->initialize($caller)
+            ->add_class_attribute( $_, %options )
+                for @{ $attrs };
 }
-
-{
-    # This should probably be an attribute of the metaclass, but that
-    # would require extending Moose::Meta::Class, which would conflict
-    # with anything else that wanted to do so as well (we need
-    # metaclass roles or something).
-    my %Name;
-
-    sub _make_container_class ## no critic RequireArgUnpacking
-    {
-        my $caller  = shift;
-
-        return $Name{$caller} if $Name{$caller};
-
-        my @parents = map { container_class($_) || () } @_;
-
-        push @parents, 'Moose::Object'
-            unless grep { $_->isa('Moose::Object') } @parents;
-
-        my $container_pkg = 'MooseX::ClassAttribute::Container::' . $caller;
-        my $instance_holder = $container_pkg . '::Self';
-
-        my $instance_meth = sub {
-            no strict 'refs'; ## no critic ProhibitNoStrict
-            return $$instance_holder ||= shift->new(@_);
-        };
-
-        my $class =
-            Moose::Meta::Class->create
-                ( $container_pkg =>
-                  superclasses => \@parents,
-                  methods      => { instance => $instance_meth },
-                );
-
-        return $Name{$caller} = $container_pkg;
-    }
-
-    sub container_class
-    {
-        my $pkg = shift || caller();
-
-        return $Name{$pkg};
-    }
-}
-
-# This is basically copied from Moose.pm
-sub unimport ## no critic RequireFinalReturn, RequireArgUnpacking
-{
-    my $caller = Moose::_get_caller(@_);
-
-    no strict 'refs'; ## no critic ProhibitNoStrict
-    foreach my $name (@EXPORT)
-    {
-        if ( defined &{ $caller . '::' . $name } )
-        {
-            my $keyword = \&{ $caller . '::' . $name };
-
-            my $pkg_name =
-                eval { svref_2object($keyword)->GV()->STASH()->NAME() };
-
-            next if $@;
-            next if $pkg_name ne __PACKAGE__;
-
-            delete ${ $caller . '::' }{$name};
-        }
-    }
-}
-
 
 1;
 
