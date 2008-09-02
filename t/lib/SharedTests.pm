@@ -9,13 +9,11 @@ use Test::More;
 my $HasMXAH;
 BEGIN
 {
-    if ( eval 'use MooseX::AttributeHelpers 0.12; 1;' )
+    if ( eval 'use MooseX::AttributeHelpers 0.13; 1;' )
     {
         $HasMXAH = 1;
     }
 }
-
-plan tests => 25;
 
 
 {
@@ -67,6 +65,9 @@ plan tests => 25;
         ( is      => 'rw',
           isa     => 'Delegatee',
           handles => [ 'units', 'color' ],
+          # if it's not lazy it makes a new object before we define
+          # Delegatee's attributes.
+          lazy    => 1,
           default => sub { Delegatee->new() },
         );
 
@@ -93,7 +94,6 @@ plan tests => 25;
         );
 
     no Moose;
-    no MooseX::ClassAttribute;
 
     sub BUILD
     {
@@ -107,7 +107,6 @@ plan tests => 25;
         my $class = shift;
 
         $class->meta()->make_immutable();
-        MooseX::ClassAttribute::container_class()->meta()->make_immutable();
         Delegatee->meta()->make_immutable();
     }
 }
@@ -126,6 +125,8 @@ plan tests => 25;
         ( is      => 'ro',
           default => 'blue',
         );
+
+    no Moose;
 }
 
 {
@@ -138,10 +139,14 @@ plan tests => 25;
 
     class_has '+ReadOnlyAttribute' =>
         ( default => 30 );
+
+    no Moose;
 }
 
 sub run_tests
 {
+    plan tests => 24;
+
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
     {
@@ -226,11 +231,6 @@ sub run_tests
                 'has a Delegetee object' );
         is( HasClassAttribute->units(), 5,
             'units() delegates to Delegatee and returns 5' );
-    }
-
-    {
-        ok( ! HasClassAttribute->can('class_has'),
-            q{'no MooseX::ClassAttribute' remove class_has from HasClassAttribute} );
     }
 
  SKIP:
