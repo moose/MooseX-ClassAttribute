@@ -1,3 +1,11 @@
+0.05   2008-08-07
+
+* Totally rewritten as proper meta classes, so it supports
+  introspection and all that good stuff. This breaks some old code
+  because there is no longer a "containing class" for class
+  attributes.
+
+
 0.04   2008-01-21
 
 - An internals change to make this class work with Moose 0.34.
