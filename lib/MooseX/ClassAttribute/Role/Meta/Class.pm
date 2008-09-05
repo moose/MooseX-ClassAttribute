@@ -12,7 +12,7 @@ use Moose::Role;
 has class_attribute_map =>
     ( metaclass => 'Collection::Hash',
       is        => 'ro',
-      isa       => 'HashRef[MooseX::ClassAttribute::Meta::Attribute]',
+      isa       => 'HashRef[Moose::Meta::Attribute]',
       provides  => { set    => '_add_class_attribute',
                      exists => 'has_class_attribute',
                      get    => 'get_class_attribute',
@@ -93,17 +93,13 @@ sub _process_new_class_attribute
     my $name = shift;
     my %p    = @_;
 
-    if ( $p{metaclass} )
+    if ( $p{traits} )
     {
-        $p{metaclass} =
-            Moose::Meta::Class->create_anon_class
-                ( superclasses => [ 'MooseX::ClassAttribute::Meta::Attribute', $p{metaclass} ],
-                  cache        => 1,
-                )->name();
+        push @{ $p{traits} },'MooseX::ClassAttribute::Role::Meta::Attribute'
     }
     else
     {
-        $p{metaclass} = 'MooseX::ClassAttribute::Meta::Attribute';
+        $p{traits} = [ 'MooseX::ClassAttribute::Role::Meta::Attribute' ];
     }
 
     return Moose::Meta::Attribute->interpolate_class_and_new( $name, %p );

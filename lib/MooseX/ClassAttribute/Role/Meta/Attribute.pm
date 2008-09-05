@@ -1,19 +1,25 @@
-package MooseX::ClassAttribute::Meta::Attribute;
+package MooseX::ClassAttribute::Role::Meta::Attribute;
 
 use strict;
 use warnings;
 
 use MooseX::ClassAttribute::Meta::Method::Accessor;
 
-use Moose;
+use Moose::Role;
 
-extends 'Moose::Meta::Attribute';
+# This is the worst role evar! Really, this should be a subclass,
+# because it overrides a lot of behavior. However, as a subclass it
+# won't cooperate with _other_ subclasses like
+# MX::AttributeHelpers::Base.
 
-
-sub accessor_metaclass { 'MooseX::ClassAttribute::Meta::Method::Accessor' }
-
-sub _process_options
+around 'accessor_metaclass' => sub
 {
+    return 'MooseX::ClassAttribute::Meta::Method::Accessor';
+};
+
+around '_process_options' => sub
+{
+    my $orig    = shift;
     my $class   = shift;
     my $name    = shift;
     my $options = shift;
@@ -21,29 +27,31 @@ sub _process_options
     confess 'A class attribute cannot be required'
         if $options->{required};
 
-    return $class->SUPER::_process_options( $name, $options );
-}
+    return $class->$orig( $name, $options );
+};
 
-sub attach_to_class
+around attach_to_class => sub
 {
+    my $orig = shift;
     my $self = shift;
     my $meta = shift;
 
-    $self->SUPER::attach_to_class($meta);
+    $self->$orig($meta);
 
     $self->_initialize($meta)
         unless $self->is_lazy();
-}
+};
 
-sub detach_from_class
+around 'detach_from_class' => sub
 {
+    my $orig = shift;
     my $self = shift;
     my $meta = shift;
 
     $self->clear_value($meta);
 
-    $self->SUPER::detach_from_class($meta);
-}
+    $self->$orig($meta);
+};
 
 sub _initialize
 {
@@ -59,11 +67,12 @@ sub _initialize
     }
 }
 
-sub default
+around 'default' => sub
 {
+    my $orig = shift;
     my $self = shift;
 
-    my $default = $self->SUPER::default();
+    my $default = $self->$orig();
 
     if ( $self->is_default_a_coderef() )
     {
@@ -71,10 +80,11 @@ sub default
     }
 
     return $default;
-}
+};
 
-sub _call_builder
+around '_call_builder' => sub
 {
+    shift;
     my $self  = shift;
     my $class = shift;
 
@@ -88,37 +98,41 @@ sub _call_builder
             . "' for attribute '"
             . $self->name
             . "'" );
-}
+};
 
-sub set_value
+around 'set_value' => sub
 {
+    shift;
     my $self  = shift;
     my $value = shift;
 
     $self->associated_class()->set_class_attribute_value( $self->name() => $value );
-}
+};
 
-sub get_value
+around 'get_value' => sub
 {
+    shift;
     my $self  = shift;
 
     return $self->associated_class()->get_class_attribute_value( $self->name() );
-}
+};
 
-sub has_value
+around 'has_value' => sub
 {
+    shift;
     my $self  = shift;
 
     return $self->associated_class()->has_class_attribute_value( $self->name() );
-}
+};
 
-sub clear_value
+around 'clear_value' => sub
 {
+    shift;
     my $self  = shift;
 
     return $self->associated_class()->clear_class_attribute_value( $self->name() );
-}
+};
 
-no Moose;
+no Moose::Role;
 
 1;
