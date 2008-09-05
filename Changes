@@ -1,4 +1,4 @@
-0.05   2008-08-07
+0.05   2008-09-07
 
 * Totally rewritten as proper meta classes, so it supports
   introspection and all that good stuff. This breaks some old code
