@@ -3,7 +3,7 @@ use warnings;
 
 use lib 't/lib';
 
-use Test::More 'no_plan';
+use Test::More tests => 14;
 
 # We just want the class definitions in here.
 use SharedTests;
