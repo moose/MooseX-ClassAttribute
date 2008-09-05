@@ -17,7 +17,7 @@ plan tests => scalar @modules;
 
 my %trustme =
     ( 'MooseX::ClassAttribute'                         => [ 'init_meta', 'class_has' ],
-      'MooseX::ClassAttribute::Meta::Method::Accessor' => qr/.+/,
+      'MooseX::ClassAttribute::Meta::Method::Accessor' => [ '.+' ]
     );
 
 for my $module ( sort @modules )
@@ -26,16 +26,8 @@ for my $module ( sort @modules )
 
     if ( $trustme{$module} )
     {
-        # why is qr// not a ref?
-        if ( ! ref $trustme{module} )
-        {
-            $trustme = [ $trustme{module} ]
-        }
-        else
-        {
-            my $methods = join '|', @{ $trustme{$module} };
-            $trustme = [ qr/^(?:$methods)/ ];
-        }
+        my $methods = join '|', @{ $trustme{$module} };
+        $trustme = [ qr/^(?:$methods)/ ];
     }
 
     pod_coverage_ok( $module, { trustme => $trustme },
