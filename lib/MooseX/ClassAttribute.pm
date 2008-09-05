@@ -67,7 +67,6 @@ MooseX::ClassAttribute - Declare class attributes Moose-style
         );
 
     __PACKAGE__->meta()->make_immutable();
-    MooseX::ClassAttribute::container_class()->meta()->make_immutable();
 
     no Moose;
     no MooseX::ClassAttribute;
@@ -80,15 +79,14 @@ MooseX::ClassAttribute - Declare class attributes Moose-style
 =head1 DESCRIPTION
 
 This module allows you to declare class attributes in exactly the same
-way as you declare object attributes, except using C<class_has()>
-instead of C<has()>. It is also possible to make these attributes
-immutable (and faster) just as you can with normal Moose attributes.
+way as object attributes, using C<class_has()> instead of C<has()>.
 
 You can use any feature of Moose's attribute declarations, including
 overriding a parent's attributes, delegation (C<handles>), and
-attribute metaclasses, and it should just work.
+attribute metaclasses, and it should just work. The one exception is
+the "required" flag, which is not allowed for class attributes.
 
-The accessors methods for class attribute may be called on the class
+The accessor methods for class attribute may be called on the class
 directly, or on objects of that class. Passing a class attribute to
 the constructor will not set it.
 
@@ -101,30 +99,24 @@ One little nit is that if you include C<no Moose> in your class, you
 won't remove the C<class_has()> function. To do that you must include
 C<no MooseX::ClassAttribute> as well.
 
-If you want to use this module to create class attributes in I<other>
-classes, you can call the C<process_class_attribute()> function like
-this:
-
-  MooseX::ClassAttribute::process_class_attribute( $package, ... );
-
-The first argument is the package which will have the class attribute,
-and the remaining arguments are the same as those passed to
-C<class_has()>.
-
 =head2 Implementation and Immutability
 
-Underneath the hood, this class creates one new class for each class
-which has class attributes and sets up delegating methods in the class
-for which you're creating class attributes. You don't need to worry
-about this too much, except when it comes to making a class immutable.
+This module will add a role to your class's metaclass, See
+L<MooseX::ClassAttribute::Role::Meta::Class> for details. This role
+provides introspection methods for class attributes.
 
-Since the class attributes are not really stored in your class, you
-need to make the container class immutable as well as your own ...
+Class attributes themselves do the
+L<MooseX::ClassAttribute::Role::Meta::Attribute> role.
 
-  __PACKAGE__->meta()->make_immutable();
-  MooseX::ClassAttribute::container_class()->meta()->make_immutable();
+There is also a L<MooseX::ClassAttribute::Meta::Method::Accessor>
+which provides part of the inlining implementation for class
+attributes.
 
-I<This may change in the future!>
+=head2 Cooperation with Metaclasses and Traits
+
+This module should work with most attribute metaclasses and traits,
+but it's possible that conflicts could occur. This module has been
+tested to work with C<MooseX::AttributeHelpers>.
 
 =head1 AUTHOR
 
@@ -139,7 +131,7 @@ automatically be notified of progress on your bug as I make changes.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2007 Dave Rolsky, All Rights Reserved.
+Copyright 2007-2008 Dave Rolsky, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
