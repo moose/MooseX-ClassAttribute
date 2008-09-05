@@ -6,10 +6,7 @@ use Module::Build;
 my $builder = Module::Build->new
     ( module_name         => 'MooseX::ClassAttribute',
       license             => 'perl',
-      requires            => { 'B'          => 0,
-                               'Exporter'   => 0,
-                               'Moose'      => 0.34,
-                               'Sub::Name'  => 0,
+      requires            => { 'Moose'      => 0.57,
                              },
       build_requires      => { 'Scalar::Util' => 0,
                                'Test::More'   => 0,
