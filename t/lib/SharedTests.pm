@@ -15,6 +15,7 @@ BEGIN
     }
 }
 
+sub HasMXAH { $HasMXAH }
 
 {
     package HasClassAttribute;
@@ -71,7 +72,7 @@ BEGIN
           default => sub { Delegatee->new() },
         );
 
-    if ($HasMXAH)
+    if ( SharedTests->HasMXAH() )
     {
         class_has 'Mapping' =>
             ( metaclass => 'Collection::Hash',
@@ -139,6 +140,11 @@ BEGIN
 
     class_has '+ReadOnlyAttribute' =>
         ( default => 30 );
+
+    class_has 'YetAnotherAttribute' =>
+        ( is      => 'ro',
+          default => 'thing',
+        );
 
     no Moose;
 }
@@ -236,7 +242,7 @@ sub run_tests
  SKIP:
     {
         skip 'These tests require MooseX::AttributeHelpers', 4
-            unless $HasMXAH;
+            unless SharedTests->HasMXAH();
 
         my @ids = HasClassAttribute->IdsInMapping();
         is( scalar @ids, 0,

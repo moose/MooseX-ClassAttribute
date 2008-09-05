@@ -136,3 +136,40 @@ around 'clear_value' => sub
 no Moose::Role;
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+MooseX::ClassAttribute::Role::Meta::Attribute - An attribute role for classes with class attributes
+
+=head1 DESCRIPTION
+
+This role modifies the behavior of class attributes in various
+ways. It really should be a subclass of C<Moose::Meta::Attribute>, but
+if it were then it couldn't be combined with other attribute
+metaclasses, like C<MooseX::AttributeHelpers>.
+
+There are no new public methods implemented by this role. All it does
+is change the behavior of a number of existing methods.
+
+=head1 AUTHOR
+
+Dave Rolsky, C<< <autarch@urth.org> >>
+
+=head1 BUGS
+
+See L<MooseX::ClassAttribute> for details.
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2007-2008 Dave Rolsky, All Rights Reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+
