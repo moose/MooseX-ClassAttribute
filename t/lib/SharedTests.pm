@@ -6,22 +6,13 @@ use warnings;
 use Scalar::Util qw( isweak );
 use Test::More;
 
-my $HasMXAH;
-BEGIN
-{
-    if ( eval 'use MooseX::AttributeHelpers 0.13; 1;' )
-    {
-        $HasMXAH = 1;
-    }
-}
-
-sub HasMXAH { $HasMXAH }
 
 {
     package HasClassAttribute;
 
     use Moose qw( has );
     use MooseX::ClassAttribute;
+    use MooseX::AttributeHelpers;
 
     use vars qw($Lazy);
     $Lazy = 0;
@@ -72,21 +63,18 @@ sub HasMXAH { $HasMXAH }
           default => sub { Delegatee->new() },
         );
 
-    if ( SharedTests->HasMXAH() )
-    {
-        class_has 'Mapping' =>
-            ( metaclass => 'Collection::Hash',
-              is        => 'rw',
-              isa       => 'HashRef[Str]',
-              default   => sub { {} },
-              provides  =>
-              { exists => 'ExistsInMapping',
-                keys   => 'IdsInMapping',
-                get    => 'GetMapping',
-                set    => 'SetMapping',
-              },
-            );
-    }
+    class_has 'Mapping' =>
+        ( metaclass => 'Collection::Hash',
+          is        => 'rw',
+          isa       => 'HashRef[Str]',
+          default   => sub { {} },
+          provides  =>
+          { exists => 'ExistsInMapping',
+            keys   => 'IdsInMapping',
+            get    => 'GetMapping',
+            set    => 'SetMapping',
+          },
+        );
 
     has 'size' =>
         ( is      => 'rw',
@@ -239,11 +227,7 @@ sub run_tests
             'units() delegates to Delegatee and returns 5' );
     }
 
- SKIP:
     {
-        skip 'These tests require MooseX::AttributeHelpers', 4
-            unless SharedTests->HasMXAH();
-
         my @ids = HasClassAttribute->IdsInMapping();
         is( scalar @ids, 0,
             'there are no keys in the mapping yet' );

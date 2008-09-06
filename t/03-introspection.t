@@ -16,8 +16,7 @@ ok( HasClassAttribute->meta()->get_class_attribute('ObjectCount')
                      ->meta()->does_role('MooseX::ClassAttribute::Role::Meta::Attribute'),
     'get_class_attribute_list returns an object which does the MooseX::ClassAttribute::Role::Meta::Attribute role' );
 
-my @ca = qw( Delegatee LazyAttribute ManyNames ObjectCount ReadOnlyAttribute WeakAttribute );
-push @ca, 'Mapping' if SharedTests->HasMXAH();
+my @ca = qw( Delegatee LazyAttribute ManyNames Mapping ObjectCount ReadOnlyAttribute WeakAttribute );
 
 is_deeply( [ sort HasClassAttribute->meta()->get_class_attribute_list() ],
            [ sort @ca ],

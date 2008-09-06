@@ -1,4 +1,10 @@
-0.05   2008-09-07
+0.06   2008-09-06
+
+- No code changes, just added a missing prereq for
+  MooseX::AttributeHelpers.
+
+
+0.05   2008-09-05
 
 * Totally rewritten as proper meta classes, so it supports
   introspection and all that good stuff. This breaks some old code
