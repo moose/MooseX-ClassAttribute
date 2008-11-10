@@ -56,15 +56,14 @@ around 'detach_from_class' => sub
 sub _initialize
 {
     my $self = shift;
-    my $class_name = $self->associated_class()->name();
 
     if ( $self->has_default() )
     {
-        $self->set_value( $class_name, $self->default() );
+        $self->set_value( undef, $self->default() );
     }
     elsif ( $self->has_builder() )
     {
-        $self->set_value( $class_name, $self->_call_builder() );
+        $self->set_value( undef, $self->_call_builder() );
     }
 }
 
@@ -105,7 +104,7 @@ around 'set_value' => sub
 {
     shift;
     my $self     = shift;
-    my $instance = shift;
+    shift; # ignoring instance or class name
     my $value    = shift;
 
     $self->associated_class()->set_class_attribute_value( $self->name() => $value );
