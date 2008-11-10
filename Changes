@@ -1,3 +1,12 @@
+0.07   2008-11-10
+
+- Fixed a bug where class attributes did not honor the
+  Class::MOP::Attribute properly, so things that used it directly
+  failed. This bug could be tickled by using certain
+  MooseX::AttributeHelpers attribute metaclasses with a class
+  attribute. Fixed by Shawn Moore.
+
+
 0.06   2008-09-06
 
 - No code changes, just added a missing prereq for
