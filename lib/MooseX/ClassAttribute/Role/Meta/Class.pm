@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use MooseX::AttributeHelpers;
+use MooseX::ClassAttribute::Role::Meta::Attribute;
 use Scalar::Util qw( blessed );
 
 use Moose::Role;

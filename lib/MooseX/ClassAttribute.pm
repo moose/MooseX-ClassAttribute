@@ -9,7 +9,6 @@ our $AUTHORITY = 'cpan:DROLSKY';
 use Moose ();
 use Moose::Exporter;
 use MooseX::ClassAttribute::Role::Meta::Class;
-use MooseX::ClassAttribute::Role::Meta::Attribute;
 
 Moose::Exporter->setup_import_methods
     ( with_caller => [ 'class_has' ] );
