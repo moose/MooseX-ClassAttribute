@@ -195,7 +195,7 @@ sub inline_class_slot_access
     my $self = shift;
     my $name = shift;
 
-    return '$' . $self->_class_attribute_var_name . '{' . $name . '}';
+    return '$' . $self->_class_attribute_var_name . '{"' . quotemeta($name) . '"}';
 }
 
 sub inline_get_class_slot_value

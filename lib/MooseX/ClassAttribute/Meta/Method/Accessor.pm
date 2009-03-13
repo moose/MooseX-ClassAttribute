@@ -11,11 +11,10 @@ extends 'Moose::Meta::Method::Accessor';
 sub generate_predicate_method_inline
 {
     my $attr      = (shift)->associated_attribute;
-    my $attr_name = $attr->name;
 
     my $code =
         eval 'sub {'
-        . $attr->associated_class()->inline_is_class_slot_initialized( "'$attr_name'" )
+        . $attr->associated_class()->inline_is_class_slot_initialized( $attr->name() )
         . '}';
 
     confess "Could not generate inline predicate because : $@" if $@;
@@ -26,12 +25,11 @@ sub generate_predicate_method_inline
 sub generate_clearer_method_inline
 {
     my $attr          = (shift)->associated_attribute;
-    my $attr_name     = $attr->name;
     my $meta_instance = $attr->associated_class->instance_metaclass;
 
     my $code =
         eval 'sub {'
-        . $attr->associated_class()->inline_deinitialize_class_slot( "'$attr_name'" )
+        . $attr->associated_class()->inline_deinitialize_class_slot( $attr->name() )
         . '}';
 
     confess "Could not generate inline clearer because : $@" if $@;
@@ -47,12 +45,10 @@ sub _inline_store
 
     my $attr = $self->associated_attribute();
 
-    my $slot_name = sprintf "'%s'", $attr->slots();
-
     my $meta = $attr->associated_class();
 
-    my $code = $meta->inline_set_class_slot_value($slot_name, $value)    . ";";
-    $code   .= $meta->inline_weaken_class_slot_value($slot_name, $value) . ";"
+    my $code = $meta->inline_set_class_slot_value( $attr->slots(), $value )    . ";";
+    $code   .= $meta->inline_weaken_class_slot_value( $attr->slots(), $value ) . ";"
         if $attr->is_weak_ref();
 
     return $code;
@@ -65,9 +61,7 @@ sub _inline_get
     my $attr = $self->associated_attribute;
     my $meta = $attr->associated_class();
 
-    my $slot_name = sprintf "'%s'", $attr->slots;
-
-    return $meta->inline_get_class_slot_value($slot_name);
+    return $meta->inline_get_class_slot_value( $attr->slots() );
 }
 
 sub _inline_access
@@ -77,9 +71,7 @@ sub _inline_access
     my $attr = $self->associated_attribute;
     my $meta = $attr->associated_class();
 
-    my $slot_name = sprintf "'%s'", $attr->slots;
-
-    return $meta->inline_class_slot_access($slot_name);
+    return $meta->inline_class_slot_access( $attr->slots() );
 }
 
 sub _inline_has
@@ -89,9 +81,7 @@ sub _inline_has
     my $attr = $self->associated_attribute;
     my $meta = $attr->associated_class();
 
-    my $slot_name = sprintf "'%s'", $attr->slots;
-
-    return $meta->inline_is_class_slot_initialized($slot_name);
+    return $meta->inline_is_class_slot_initialized( $attr->slots() );
 }
 
 sub _inline_init_slot
