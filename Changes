@@ -1,6 +1,6 @@
 0.08
 
-- Make this work with Moose 0.73_01+.
+- Make this module work with Moose 0.73_01+.
 
 - Deprecated compute_all_applicable_class_attributes. Use
   get_all_class_attributes instead.
