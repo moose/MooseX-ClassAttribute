@@ -1,3 +1,11 @@
+0.08
+
+- Make this work with Moose 0.73_01+.
+
+- Deprecated compute_all_applicable_class_attributes. Use
+  get_all_class_attributes instead.
+
+
 0.07   2008-11-10
 
 - Fixed a bug where class attributes did not honor the

@@ -8,7 +8,7 @@ use Moose;
 extends 'Moose::Meta::Method::Accessor';
 
 
-sub generate_predicate_method_inline
+sub _generate_predicate_method_inline
 {
     my $attr      = (shift)->associated_attribute;
 
@@ -22,7 +22,7 @@ sub generate_predicate_method_inline
     return $code;
 }
 
-sub generate_clearer_method_inline
+sub _generate_clearer_method_inline
 {
     my $attr          = (shift)->associated_attribute;
     my $meta_instance = $attr->associated_class->instance_metaclass;
