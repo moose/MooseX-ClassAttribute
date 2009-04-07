@@ -3,7 +3,7 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 our $AUTHORITY = 'cpan:DROLSKY';
 
 use Moose 0.73_01 ();
