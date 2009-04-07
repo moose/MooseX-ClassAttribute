@@ -6,7 +6,7 @@ use warnings;
 our $VERSION = '0.08';
 our $AUTHORITY = 'cpan:DROLSKY';
 
-use Moose 0.73_01 ();
+use Moose 0.74 ();
 use Moose::Exporter;
 use MooseX::ClassAttribute::Role::Meta::Class;
 
