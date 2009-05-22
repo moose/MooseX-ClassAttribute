@@ -36,8 +36,7 @@ sub class_has
 
     my $attrs = ref $name eq 'ARRAY' ? $name : [$name];
 
-    Class::MOP::Class
-        ->initialize($caller)
+    Class::MOP::class_of($caller)
         ->add_class_attribute( $_, %options )
             for @{ $attrs };
 }

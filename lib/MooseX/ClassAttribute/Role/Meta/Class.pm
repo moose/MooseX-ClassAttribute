@@ -144,8 +144,8 @@ sub get_all_class_attributes
     my $self = shift;
 
     my %attrs =
-        map { my $meta = Class::MOP::Class->initialize($_);
-              $meta->can('get_class_attribute_map')
+        map { my $meta = Class::MOP::class_of($_);
+              $meta && $meta->can('get_class_attribute_map')
               ? %{ $meta->get_class_attribute_map() }
               : ()
             }
@@ -169,7 +169,8 @@ sub find_class_attribute_by_name
 
     foreach my $class ( $self->linearized_isa() )
     {
-        my $meta = Class::MOP::Class->initialize($class);
+        my $meta = Class::MOP::class_of($class)
+            or next;
 
         return $meta->get_class_attribute($name)
             if $meta->can('has_class_attribute') && $meta->has_class_attribute($name);
