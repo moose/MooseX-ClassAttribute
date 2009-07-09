@@ -1,7 +1,7 @@
 # auto-generated shipit config file.
 steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, DistClean
 
-svn.tagpattern = %v
-svn.tagpattern = http://code2.0beta.co.uk/moose/svn/MooseX-ClassAttribute/tags/%v
+git.tagpattern = %v
+git.push_to = origin
 
 CheckChangeLog.files = Changes
