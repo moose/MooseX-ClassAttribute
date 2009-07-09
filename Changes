@@ -1,3 +1,9 @@
+0.09   2009-07-09
+
+- An attribute with a builder that wasn't also lazy caused an
+  exception when the attribute's accessor was called.
+
+
 0.08   2009-04-07
 
 - Make this module work with Moose 0.73_01+.
