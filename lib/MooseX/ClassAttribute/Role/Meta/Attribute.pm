@@ -55,7 +55,8 @@ around 'detach_from_class' => sub
 
 sub _initialize
 {
-    my $self = shift;
+    my $self      = shift;
+    my $metaclass = shift;
 
     if ( $self->has_default() )
     {
@@ -63,7 +64,7 @@ sub _initialize
     }
     elsif ( $self->has_builder() )
     {
-        $self->set_value( undef, $self->_call_builder() );
+        $self->set_value( undef, $self->_call_builder( $metaclass->name() ) );
     }
 }
 

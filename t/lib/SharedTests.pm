@@ -76,6 +76,17 @@ use Test::More;
           },
         );
 
+    class_has 'Built' =>
+        ( is      => 'ro',
+          builder => '_BuildIt',
+        );
+
+    class_has 'LazyBuilt' =>
+        ( is      => 'ro',
+          lazy    => 1,
+          builder => '_BuildIt',
+        );
+
     has 'size' =>
         ( is      => 'rw',
           isa     => 'Int',
@@ -90,6 +101,8 @@ use Test::More;
 
         $self->ObjectCount( $self->ObjectCount() + 1 );
     }
+
+    sub _BuildIt { 42 }
 
     sub make_immutable
     {
@@ -139,7 +152,7 @@ use Test::More;
 
 sub run_tests
 {
-    plan tests => 24;
+    plan tests => 26;
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
@@ -242,6 +255,14 @@ sub run_tests
 
         is( HasClassAttribute->GetMapping('a'), 20,
             'value for a in mapping is 20' );
+    }
+
+    {
+        is( HasClassAttribute->Built(), 42,
+            'attribute with builder works' );
+
+        is( HasClassAttribute->LazyBuilt(), 42,
+            'attribute with lazy builder works' );
     }
 }
 
