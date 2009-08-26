@@ -3,10 +3,10 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 our $AUTHORITY = 'cpan:DROLSKY';
 
-use Moose 0.74 ();
+use Moose 0.89 ();
 use Moose::Exporter;
 use MooseX::ClassAttribute::Role::Meta::Class;
 

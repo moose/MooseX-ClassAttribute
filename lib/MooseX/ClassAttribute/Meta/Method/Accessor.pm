@@ -100,6 +100,23 @@ sub _inline_check_lazy
             ( q{'} . $self->associated_attribute()->associated_class()->name() . q{'} );
 }
 
+sub _inline_get_old_value_for_trigger
+{
+    my $self = shift;
+
+    my $attr = $self->associated_attribute();
+    return '' unless $attr->has_trigger();
+
+    my $pred =
+        $attr->associated_class()->inline_is_class_slot_initialized( $attr->name() );
+
+    return
+          'my @old = '
+        . $pred . q{ ? }
+        . $self->_inline_get() . q{ : ()} . ";\n";
+
+}
+
 no Moose;
 
 1;

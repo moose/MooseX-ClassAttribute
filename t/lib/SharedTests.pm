@@ -87,6 +87,11 @@ use Test::More;
           builder => '_BuildIt',
         );
 
+    class_has 'Triggerish' =>
+        ( is      => 'rw',
+          trigger => sub { shift->_CallTrigger(@_) },
+        );
+
     has 'size' =>
         ( is      => 'rw',
           isa     => 'Int',
@@ -103,6 +108,12 @@ use Test::More;
     }
 
     sub _BuildIt { 42 }
+
+    our @Triggered;
+    sub _CallTrigger
+    {
+        push @Triggered, [@_];
+    }
 
     sub make_immutable
     {
@@ -152,7 +163,7 @@ use Test::More;
 
 sub run_tests
 {
-    plan tests => 26;
+    plan tests => 30;
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
@@ -263,6 +274,21 @@ sub run_tests
 
         is( HasClassAttribute->LazyBuilt(), 42,
             'attribute with lazy builder works' );
+    }
+
+    {
+        HasClassAttribute->Triggerish(42);
+        is( scalar @HasClassAttribute::Triggered, 1, 'trigger was called' );
+        is( HasClassAttribute->Triggerish(), 42, 'Triggerish is now 42' );
+
+        HasClassAttribute->Triggerish(84);
+        is( HasClassAttribute->Triggerish(), 84, 'Triggerish is now 84' );
+
+        is_deeply( \@HasClassAttribute::Triggered,
+                   [ [ qw( HasClassAttribute 42 ) ],
+                     [ qw( HasClassAttribute 84 42 ) ],
+                   ],
+                   'trigger passes old value correctly' );
     }
 }
 
