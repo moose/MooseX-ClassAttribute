@@ -11,7 +11,7 @@ use Moose::Exporter;
 use MooseX::ClassAttribute::Role::Meta::Class;
 
 Moose::Exporter->setup_import_methods
-    ( with_caller => [ 'class_has' ] );
+    ( with_meta => [ 'class_has' ] );
 
 
 sub init_meta
@@ -30,15 +30,14 @@ sub init_meta
 
 sub class_has
 {
-    my $caller  = shift;
+    my $meta    = shift;
     my $name    = shift;
     my %options = @_;
 
     my $attrs = ref $name eq 'ARRAY' ? $name : [$name];
 
-    Class::MOP::class_of($caller)
-        ->add_class_attribute( $_, %options )
-            for @{ $attrs };
+    $meta->add_class_attribute( $_, %options )
+        for @{ $attrs };
 }
 
 1;
