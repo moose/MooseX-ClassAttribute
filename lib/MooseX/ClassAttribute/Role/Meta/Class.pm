@@ -110,23 +110,18 @@ sub _process_inherited_class_attribute {
     return $inherited_attr->clone_and_inherit_options(%p);
 }
 
-sub remove_class_attribute {
+around remove_class_attribute => sub {
+    my $orig = shift;
     my $self = shift;
-    my $name = shift;
 
-    ( defined $name && $name )
-        || confess 'You must provide an attribute name';
-
-    my $removed_attr = $self->get_class_attribute($name);
-    return unless $removed_attr;
-
-    $self->_remove_class_attribute($name);
+    my $removed_attr = $self->$orig(@_)
+        or return;
 
     $removed_attr->remove_accessors();
     $removed_attr->detach_from_class();
 
     return $removed_attr;
-}
+};
 
 sub get_all_class_attributes {
     my $self = shift;

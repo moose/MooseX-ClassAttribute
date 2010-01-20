@@ -57,4 +57,19 @@ sub add_class_attribute {
     return $attribute;
 }
 
+sub remove_class_attribute {
+    my $self = shift;
+    my $name = shift;
+
+    ( defined $name && $name )
+        || confess 'You must provide an attribute name';
+
+    my $removed_attr = $self->get_class_attribute($name);
+    return unless $removed_attr;
+
+    $self->_remove_class_attribute($name);
+
+    return $removed_attr;
+}
+
 1;
