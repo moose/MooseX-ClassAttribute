@@ -12,7 +12,7 @@ my $builder = Module::Build->new(
     },
     build_requires => {
         'Scalar::Util' => '0',
-        'Test::More'   => '0',
+        'Test::More'   => '0.88',
     },
     create_makefile_pl => 'passthrough',
     create_readme      => 1,
