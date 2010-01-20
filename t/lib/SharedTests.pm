@@ -154,31 +154,33 @@ our %Attrs = (
 }
 
 sub run_tests {
+    my $class = shift || 'HasClassAttribute';
+
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
     {
         is(
-            HasClassAttribute->ObjectCount(), 0,
+            $class->ObjectCount(), 0,
             'ObjectCount() is 0'
         );
 
-        my $hca1 = HasClassAttribute->new();
+        my $hca1 = $class->new();
         is(
             $hca1->size(), 5,
             'size is 5 - object attribute works as expected'
         );
         is(
-            HasClassAttribute->ObjectCount(), 1,
+            $class->ObjectCount(), 1,
             'ObjectCount() is 1'
         );
 
-        my $hca2 = HasClassAttribute->new( size => 10 );
+        my $hca2 = $class->new( size => 10 );
         is(
             $hca2->size(), 10,
             'size is 10 - object attribute can be set via constructor'
         );
         is(
-            HasClassAttribute->ObjectCount(), 2,
+            $class->ObjectCount(), 2,
             'ObjectCount() is 2'
         );
         is(
@@ -188,13 +190,13 @@ sub run_tests {
     }
 
     {
-        my $hca3 = HasClassAttribute->new( ObjectCount => 20 );
+        my $hca3 = $class->new( ObjectCount => 20 );
         is(
             $hca3->ObjectCount(), 3,
             'class attributes passed to the constructor do not get set in the object'
         );
         is(
-            HasClassAttribute->ObjectCount(), 3,
+            $class->ObjectCount(), 3,
             'class attributes are not affected by constructor params'
         );
     }
@@ -202,12 +204,12 @@ sub run_tests {
     {
         my $object = bless {}, 'Thing';
 
-        HasClassAttribute->WeakAttribute($object);
+        $class->WeakAttribute($object);
 
         undef $object;
 
         ok(
-            !defined HasClassAttribute->WeakAttribute(),
+            !defined $class->WeakAttribute(),
             'weak class attributes are weak'
         );
     }
@@ -219,8 +221,8 @@ sub run_tests {
         );
 
         is(
-            HasClassAttribute->LazyAttribute(), 1,
-            'HasClassAttribute->LazyAttribute() is 1'
+            $class->LazyAttribute(), 1,
+            '$class->LazyAttribute() is 1'
         );
 
         is(
@@ -230,7 +232,7 @@ sub run_tests {
     }
 
     {
-        eval { HasClassAttribute->ReadOnlyAttribute(20) };
+        eval { $class->ReadOnlyAttribute(20) };
         like(
             $@, qr/\QCannot assign a value to a read-only accessor/,
             'cannot set read-only class attribute'
@@ -246,90 +248,91 @@ sub run_tests {
 
     {
         ok(
-            !HasClassAttribute->HasM(),
+            !$class->HasM(),
             'HasM() returns false before M is set'
         );
 
-        HasClassAttribute->SetM(22);
+        $class->SetM(22);
 
         ok(
-            HasClassAttribute->HasM(),
+            $class->HasM(),
             'HasM() returns true after M is set'
         );
         is(
-            HasClassAttribute->M(), 22,
+            $class->M(), 22,
             'M() returns 22'
         );
 
-        HasClassAttribute->ClearM();
+        $class->ClearM();
 
         ok(
-            !HasClassAttribute->HasM(),
+            !$class->HasM(),
             'HasM() returns false after M is cleared'
         );
     }
 
     {
         isa_ok(
-            HasClassAttribute->Delegatee(), 'Delegatee',
+            $class->Delegatee(), 'Delegatee',
             'has a Delegetee object'
         );
         is(
-            HasClassAttribute->units(), 5,
+            $class->units(), 5,
             'units() delegates to Delegatee and returns 5'
         );
     }
 
     {
-        my @ids = HasClassAttribute->IdsInMapping();
+        my @ids = $class->IdsInMapping();
         is(
             scalar @ids, 0,
             'there are no keys in the mapping yet'
         );
 
         ok(
-            !HasClassAttribute->ExistsInMapping('a'),
+            !$class->ExistsInMapping('a'),
             'key does not exist in mapping'
         );
 
-        HasClassAttribute->SetMapping( a => 20 );
+        $class->SetMapping( a => 20 );
 
         ok(
-            HasClassAttribute->ExistsInMapping('a'),
+            $class->ExistsInMapping('a'),
             'key does exist in mapping'
         );
 
         is(
-            HasClassAttribute->GetMapping('a'), 20,
+            $class->GetMapping('a'), 20,
             'value for a in mapping is 20'
         );
     }
 
     {
         is(
-            HasClassAttribute->Built(), 42,
+            $class->Built(), 42,
             'attribute with builder works'
         );
 
         is(
-            HasClassAttribute->LazyBuilt(), 42,
+            $class->LazyBuilt(), 42,
             'attribute with lazy builder works'
         );
     }
 
     {
-        HasClassAttribute->Triggerish(42);
-        is( scalar @HasClassAttribute::Triggered, 1, 'trigger was called' );
-        is( HasClassAttribute->Triggerish(), 42, 'Triggerish is now 42' );
+        $class->Triggerish(42);
+        my $triggered = do { no strict 'refs'; \@{ $class . '::Triggered' } };
+        is( scalar @{$triggered}, 1, 'trigger was called' );
+        is( $class->Triggerish(), 42, 'Triggerish is now 42' );
 
-        HasClassAttribute->Triggerish(84);
-        is( HasClassAttribute->Triggerish(), 84, 'Triggerish is now 84' );
+        $class->Triggerish(84);
+        is( $class->Triggerish(), 84, 'Triggerish is now 84' );
 
         is_deeply(
-            \@HasClassAttribute::Triggered,
+            $triggered,
             [
-                [qw( HasClassAttribute 42 )],
-                [qw( HasClassAttribute 84 42 )],
+                [ $class, qw( 42 ) ],
+                [ $class, qw( 84 42 ) ],
             ],
             'trigger passes old value correctly'
         );
