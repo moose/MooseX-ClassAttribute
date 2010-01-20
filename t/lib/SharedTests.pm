@@ -160,8 +160,6 @@ use Test::More;
 }
 
 sub run_tests {
-    plan tests => 30;
-
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
     {
@@ -342,6 +340,8 @@ sub run_tests {
             'trigger passes old value correctly'
         );
     }
+
+    done_testing();
 }
 
 1;

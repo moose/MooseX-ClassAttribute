@@ -3,7 +3,7 @@ use warnings;
 
 use lib 't/lib';
 
-use Test::More tests => 14;
+use Test::More;
 
 # We just want the class definitions in here.
 use SharedTests;
@@ -103,3 +103,5 @@ ok(
     !Child->meta()->has_class_attribute_value('YetAnotherAttribute'),
     'Child does not have a class attribute value for YetAnotherAttribute'
 );
+
+done_testing();
