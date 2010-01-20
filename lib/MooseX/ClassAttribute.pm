@@ -16,8 +16,6 @@ sub init_meta {
     shift;
     my %p = @_;
 
-    Moose->init_meta(%p);
-
     return Moose::Util::MetaRole::apply_metaclass_roles(
         for             => $p{for_class},
         class_metaroles => {
