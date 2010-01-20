@@ -9,8 +9,7 @@ use Moose::Role;
 
 # This is the worst role evar! Really, this should be a subclass,
 # because it overrides a lot of behavior. However, as a subclass it
-# won't cooperate with _other_ subclasses like
-# MX::AttributeHelpers::Base.
+# won't cooperate with _other_ subclasses.
 
 around 'accessor_metaclass' => sub
 {
