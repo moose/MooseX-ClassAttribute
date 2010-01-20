@@ -3,41 +3,40 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION   = '0.10';
 our $AUTHORITY = 'cpan:DROLSKY';
 
 use Moose 0.89 ();
 use Moose::Exporter;
 use MooseX::ClassAttribute::Role::Meta::Class;
 
-Moose::Exporter->setup_import_methods
-    ( with_meta => [ 'class_has' ] );
+Moose::Exporter->setup_import_methods( with_meta => ['class_has'] );
 
-
-sub init_meta
-{
+sub init_meta {
     shift;
     my %p = @_;
 
     Moose->init_meta(%p);
 
-    return
-        Moose::Util::MetaRole::apply_metaclass_roles
-            ( for_class       => $p{for_class},
-              metaclass_roles => [ 'MooseX::ClassAttribute::Role::Meta::Class' ],
-            );
+    return Moose::Util::MetaRole::apply_metaclass_roles(
+        for_class       => $p{for_class},
+        class_metaroles => {
+            class => ['MooseX::ClassAttribute::Role::Meta::Class'],
+        },
+        role_metaroles => {
+            role => ['MooseX::ClassAttribute::Role::Meta::Role'],
+        },
+    );
 }
 
-sub class_has
-{
+sub class_has {
     my $meta    = shift;
     my $name    = shift;
     my %options = @_;
 
     my $attrs = ref $name eq 'ARRAY' ? $name : [$name];
 
-    $meta->add_class_attribute( $_, %options )
-        for @{ $attrs };
+    $meta->add_class_attribute( $_, %options ) for @{$attrs};
 }
 
 1;
