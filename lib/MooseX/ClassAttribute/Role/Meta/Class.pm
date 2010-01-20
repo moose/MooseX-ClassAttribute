@@ -3,39 +3,27 @@ package MooseX::ClassAttribute::Role::Meta::Class;
 use strict;
 use warnings;
 
-use MooseX::AttributeHelpers;
 use MooseX::ClassAttribute::Role::Meta::Attribute;
 use Scalar::Util qw( blessed );
 
+use namespace::autoclean;
 use Moose::Role;
 
-has class_attribute_map => (
-    metaclass => 'Collection::Hash',
-    is        => 'ro',
-    isa       => 'HashRef[Moose::Meta::Attribute]',
-    provides  => {
-        set    => '_add_class_attribute',
-        exists => 'has_class_attribute',
-        get    => 'get_class_attribute',
-        delete => '_remove_class_attribute',
-        keys   => 'get_class_attribute_list',
-    },
-    default => sub { {} },
-    reader  => 'get_class_attribute_map',
-);
+with 'MooseX::ClassAttribute::Role::Meta::Mixin::HasClassAttributes';
 
 has _class_attribute_values => (
-    metaclass => 'Collection::Hash',
-    is        => 'ro',
-    isa       => 'HashRef',
-    provides  => {
-        get    => 'get_class_attribute_value',
-        set    => 'set_class_attribute_value',
-        exists => 'has_class_attribute_value',
-        delete => 'clear_class_attribute_value',
+    traits  => ['Hash'],
+    is      => 'ro',
+    isa     => 'HashRef',
+    handles => {
+        'get_class_attribute_value'   => 'get',
+        'set_class_attribute_value'   => 'set',
+        'has_class_attribute_value'   => 'exists',
+        'clear_class_attribute_value' => 'delete',
     },
-    lazy    => 1,
-    default => sub { $_[0]->_class_attribute_values_hashref() },
+    lazy     => 1,
+    default  => sub { $_[0]->_class_attribute_values_hashref() },
+    init_arg => undef,
 );
 
 sub add_class_attribute {
@@ -233,8 +221,6 @@ sub inline_weaken_class_slot_value {
         'Scalar::Util::weaken( '
         . $self->inline_class_slot_access($name) . ')';
 }
-
-no Moose::Role;
 
 1;
 

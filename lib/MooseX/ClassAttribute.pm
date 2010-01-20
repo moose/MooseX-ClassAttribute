@@ -19,13 +19,14 @@ sub init_meta {
     Moose->init_meta(%p);
 
     return Moose::Util::MetaRole::apply_metaclass_roles(
-        for_class       => $p{for_class},
+        for             => $p{for_class},
         class_metaroles => {
             class => ['MooseX::ClassAttribute::Role::Meta::Class'],
         },
-        role_metaroles => {
-            role => ['MooseX::ClassAttribute::Role::Meta::Role'],
-        },
+
+        #        role_metaroles => {
+        #            role => ['MooseX::ClassAttribute::Role::Meta::Role'],
+        #        },
     );
 }
 
