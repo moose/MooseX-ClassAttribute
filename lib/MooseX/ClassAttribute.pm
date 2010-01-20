@@ -21,10 +21,9 @@ sub init_meta {
         class_metaroles => {
             class => ['MooseX::ClassAttribute::Role::Meta::Class'],
         },
-
-        #        role_metaroles => {
-        #            role => ['MooseX::ClassAttribute::Role::Meta::Role'],
-        #        },
+        role_metaroles => {
+            role => ['MooseX::ClassAttribute::Role::Meta::Role'],
+        },
     );
 }
 
@@ -69,7 +68,6 @@ MooseX::ClassAttribute - Declare class attributes Moose-style
     # then later ...
 
     My::Class->Cache()->{thing} = ...;
-
 
 =head1 DESCRIPTION
 

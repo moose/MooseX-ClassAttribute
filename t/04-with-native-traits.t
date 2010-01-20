@@ -6,6 +6,7 @@ use Test::More;
 {
     package MyClass;
 
+    use Moose;
     use MooseX::ClassAttribute;
 
     class_has counter => (

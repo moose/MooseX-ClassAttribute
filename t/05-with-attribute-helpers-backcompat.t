@@ -12,6 +12,7 @@ BEGIN {
 {
     package MyClass;
 
+    use Moose;
     use MooseX::ClassAttribute;
     use MooseX::AttributeHelpers;
 

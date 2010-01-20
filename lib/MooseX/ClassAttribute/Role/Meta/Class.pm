@@ -26,22 +26,25 @@ has _class_attribute_values => (
     init_arg => undef,
 );
 
-sub add_class_attribute {
+around add_class_attribute => sub {
+    my $orig = shift;
     my $self = shift;
-
-    my $attr
-        = blessed $_[0] && $_[0]->isa('Class::MOP::Attribute')
+    my $attr = (
+        blessed $_[0] && $_[0]->isa('Class::MOP::Attribute')
         ? $_[0]
-        : $self->_process_class_attribute(@_);
+        : $self->_process_class_attribute(@_)
+    );
+
+    $self->$orig($attr);
+
+    return $attr;
+};
+
+sub _post_add_class_attribute {
+    my $self = shift;
+    my $attr = shift;
 
     my $name = $attr->name();
-
-    $self->remove_class_attribute($name)
-        if $self->has_class_attribute($name);
-
-    $attr->attach_to_class($self);
-
-    $self->_add_class_attribute( $name => $attr );
 
     my $e = do {
         local $@;
@@ -53,8 +56,11 @@ sub add_class_attribute {
         $self->remove_attribute($name);
         die $e;
     }
+}
 
-    return $attr;
+sub _attach_class_attribute {
+    my ($self, $attribute) = @_;
+    $attribute->attach_to_class($self);
 }
 
 # It'd be nice if I didn't have to replicate this for class
