@@ -6,92 +6,86 @@ use warnings;
 use Scalar::Util qw( isweak );
 use Test::More;
 
-{
-    package HasClassAttribute;
+use vars qw($Lazy);
+$Lazy = 0;
 
-    use Moose qw( has );
-    use MooseX::ClassAttribute;
-    use MooseX::AttributeHelpers;
-
-    use vars qw($Lazy);
-    $Lazy = 0;
-
-    class_has 'ObjectCount' => (
+our %Attrs = (
+    ObjectCount => {
         is      => 'rw',
         isa     => 'Int',
         default => 0,
-    );
-
-    class_has 'WeakAttribute' => (
+    },
+    WeakAttribute => {
         is       => 'rw',
         isa      => 'Object',
         weak_ref => 1,
-    );
-
-    class_has 'LazyAttribute' => (
+    },
+    LazyAttribute => {
         is   => 'rw',
         isa  => 'Int',
         lazy => 1,
-
         # The side effect is used to test that this was called
         # lazily.
         default => sub { $Lazy = 1 },
-    );
-
-    class_has 'ReadOnlyAttribute' => (
+    },
+    ReadOnlyAttribute => {
         is      => 'ro',
         isa     => 'Int',
         default => 10,
-    );
-
-    class_has 'ManyNames' => (
+    },
+    ManyNames => {
         is        => 'rw',
         isa       => 'Int',
         reader    => 'M',
         writer    => 'SetM',
         clearer   => 'ClearM',
         predicate => 'HasM',
-    );
-
-    class_has 'Delegatee' => (
+    },
+    Delegatee => {
         is      => 'rw',
         isa     => 'Delegatee',
         handles => [ 'units', 'color' ],
-
         # if it's not lazy it makes a new object before we define
         # Delegatee's attributes.
         lazy    => 1,
         default => sub { Delegatee->new() },
-    );
-
-    class_has 'Mapping' => (
-        metaclass => 'Collection::Hash',
-        is        => 'rw',
-        isa       => 'HashRef[Str]',
-        default   => sub { {} },
-        provides  => {
-            exists => 'ExistsInMapping',
-            keys   => 'IdsInMapping',
-            get    => 'GetMapping',
-            set    => 'SetMapping',
+    },
+    Mapping => {
+        traits  => ['Hash'],
+        is      => 'rw',
+        isa     => 'HashRef[Str]',
+        default => sub { {} },
+        handles => {
+            'ExistsInMapping' => 'exists',
+            'IdsInMapping'    => 'keys',
+            'GetMapping'      => 'get',
+            'SetMapping'      => 'set',
         },
-    );
-
-    class_has 'Built' => (
+    },
+    Built => {
         is      => 'ro',
         builder => '_BuildIt',
-    );
-
-    class_has 'LazyBuilt' => (
+    },
+    LazyBuilt => {
         is      => 'ro',
         lazy    => 1,
         builder => '_BuildIt',
-    );
-
-    class_has 'Triggerish' => (
+    },
+    Triggerish => {
         is      => 'rw',
         trigger => sub { shift->_CallTrigger(@_) },
-    );
+    },
+);
+
+{
+    package HasClassAttribute;
+
+    use Moose qw( has );
+    use MooseX::ClassAttribute;
+
+    while ( my ( $name, $def ) = each %SharedTests::Attrs ) {
+        class_has $name => %{$def};
+    }
 
     has 'size' => (
         is      => 'rw',
@@ -220,8 +214,8 @@ sub run_tests {
 
     {
         is(
-            $HasClassAttribute::Lazy, 0,
-            '$HasClassAttribute::Lazy is 0'
+            $SharedTests::Lazy, 0,
+            '$SharedTests::Lazy is 0'
         );
 
         is(
@@ -230,8 +224,8 @@ sub run_tests {
         );
 
         is(
-            $HasClassAttribute::Lazy, 1,
-            '$HasClassAttribute::Lazy is 1 after calling LazyAttribute'
+            $SharedTests::Lazy, 1,
+            '$SharedTests::Lazy is 1 after calling LazyAttribute'
         );
     }
 
