@@ -3,18 +3,20 @@ use warnings;
 
 use Module::Build;
 
-my $builder = Module::Build->new
-    ( module_name         => 'MooseX::ClassAttribute',
-      license             => 'perl',
-      requires            => { 'Moose'                    => '0.89',
-                               'MooseX::AttributeHelpers' => '0.13',
-                             },
-      build_requires      => { 'Scalar::Util' => '0',
-                               'Test::More'   => '0',
-                             },
-      create_makefile_pl  => 'passthrough',
-      create_readme       => 1,
-      sign                => 1,
-    );
+my $builder = Module::Build->new(
+    module_name => 'MooseX::ClassAttribute',
+    license     => 'perl',
+    requires    => {
+        'Moose'                => '0.94',
+        'namespace::autoclean' => '0',
+    },
+    build_requires => {
+        'Scalar::Util' => '0',
+        'Test::More'   => '0',
+    },
+    create_makefile_pl => 'passthrough',
+    create_readme      => 1,
+    sign               => 1,
+);
 
 $builder->create_build_script();
