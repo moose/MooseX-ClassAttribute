@@ -15,23 +15,23 @@ plan skip_all => "Test::Pod::Coverage 1.04 required for testing POD coverage"
 my @modules = all_modules();
 plan tests => scalar @modules;
 
-my %trustme =
-    ( 'MooseX::ClassAttribute'                         => [ 'init_meta', 'class_has' ],
-      'MooseX::ClassAttribute::Trait::Class'      => [ 'compute_all_applicable_class_attributes' ],
-      'MooseX::ClassAttribute::Meta::Method::Accessor' => [ '.+' ]
-    );
+my %trustme = (
+    'MooseX::ClassAttribute' => [ 'init_meta', 'class_has' ],
+    'MooseX::ClassAttribute::Trait::Class' =>
+        ['compute_all_applicable_class_attributes'],
+    'MooseX::ClassAttribute::Meta::Method::Accessor' => ['.+']
+);
 
-for my $module ( sort @modules )
-{
+for my $module ( sort @modules ) {
     my $trustme;
 
-    if ( $trustme{$module} )
-    {
+    if ( $trustme{$module} ) {
         my $methods = join '|', @{ $trustme{$module} };
-        $trustme = [ qr/^(?:$methods)/ ];
+        $trustme = [qr/^(?:$methods)/];
     }
 
-    pod_coverage_ok( $module, { trustme => $trustme },
-                     "Pod coverage for $module"
-                   );
+    pod_coverage_ok(
+        $module, { trustme => $trustme },
+        "Pod coverage for $module"
+    );
 }
