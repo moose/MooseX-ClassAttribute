@@ -99,9 +99,10 @@ the constructor will not set that attribute.
 This class exports one function when you use it, C<class_has()>. This
 works exactly like Moose's C<has()>, but it declares class attributes.
 
-One little nit is that if you include C<no Moose> in your class, you
-won't remove the C<class_has()> function. To do that you must include
-C<no MooseX::ClassAttribute> as well.
+One little nit is that if you include C<no Moose> in your class, you won't
+remove the C<class_has()> function. To do that you must include C<no
+MooseX::ClassAttribute> as well. Or you can just use L<namespace::autoclean>
+instead.
 
 =head2 Implementation and Immutability
 
