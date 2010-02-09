@@ -3,7 +3,7 @@ package MooseX::ClassAttribute::Meta::Role::Attribute;
 use strict;
 use warnings;
 
-our $VERSION   = '0.10';
+our $VERSION   = '0.11';
 
 use List::MoreUtils qw( uniq );
 
