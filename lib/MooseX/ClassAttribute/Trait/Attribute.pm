@@ -133,7 +133,7 @@ __END__
 
 =head1 NAME
 
-MooseX::ClassAttribute::Trait::Attribute - An attribute role for classes with class attributes
+MooseX::ClassAttribute::Trait::Attribute - A trait for class attributes
 
 =head1 DESCRIPTION
 
@@ -161,5 +161,3 @@ This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
-
-

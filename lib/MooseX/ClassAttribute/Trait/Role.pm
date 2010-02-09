@@ -39,7 +39,7 @@ __END__
 
 =head1 NAME
 
-MooseX::ClassAttribute::Trait::Class - A metaclass role for classes with class attributes
+MooseX::ClassAttribute::Trait::Role - A trait for roles with class attributes
 
 =head1 SYNOPSIS
 
@@ -50,9 +50,9 @@ MooseX::ClassAttribute::Trait::Class - A metaclass role for classes with class a
 
 =head1 DESCRIPTION
 
-This role adds awareness of class attributes to a metaclass object. It
-provides a set of introspection methods that largely parallel the
-existing attribute methods, except they operate on class attributes.
+This role adds awareness of class attributes to a role metaclass object. It
+provides a set of introspection methods that largely parallel the existing
+attribute methods, except they operate on class attributes.
 
 =head1 METHODS
 
@@ -65,9 +65,8 @@ C<Class::MOP::Class> or C<Moose::Meta::Class> for regular attributes.
 
 =head2 $meta->get_class_attribute_list()
 
-=head2 $meta->get_class_attribute_map()
-
-These methods operate on the current metaclass only.
+These methods are exactly like their counterparts in
+L<MooseX::ClassAttribute::Trait::Class>.
 
 =head2 $meta->add_class_attribute(...)
 
@@ -77,53 +76,7 @@ C<add_attribute()> method. However, if an attribute is specified as
 
 =head2 $meta->remove_class_attribute($name)
 
-If the named class attribute exists, it is removed from the class,
-along with its accessor methods.
-
-=head2 $meta->get_all_class_attributes()
-
-This method returns a list of attribute objects for the class and all
-its parent classes.
-
-=head2 $meta->find_class_attribute_by_name($name)
-
-This method looks at the class and all its parent classes for the
-named class attribute.
-
-=head2 $meta->get_class_attribute_value($name)
-
-=head2 $meta->set_class_attribute_value($name, $value)
-
-=head2 $meta->set_class_attribute_value($name)
-
-=head2 $meta->clear_class_attribute_value($name)
-
-These methods operate on the storage for class attribute values, which
-is attached to the metaclass object.
-
-There's really no good reason for you to call these methods unless
-you're doing some deep hacking. They are named as public methods
-solely because they are used by other meta roles and classes in this
-distribution.
-
-=head2 inline_class_slot_access($name)
-
-=head2 inline_get_class_slot_value($name)
-
-=head2 inline_set_class_slot_value($name, $val_name)
-
-=head2 inline_is_class_slot_initialized($name)
-
-=head2 inline_deinitialize_class_slot($name)
-
-=head2 inline_weaken_class_slot_value($name)
-
-These methods return code snippets for inlining.
-
-There's really no good reason for you to call these methods unless
-you're doing some deep hacking. They are named as public methods
-solely because they are used by other meta roles and classes in this
-distribution.
+If the named class attribute exists, it is removed from the role.
 
 =head1 AUTHOR
 

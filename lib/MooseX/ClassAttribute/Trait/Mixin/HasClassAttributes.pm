@@ -73,3 +73,36 @@ sub remove_class_attribute {
 }
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+MooseX::ClassAttribute::Trait::Mixin::HasClassAttributes - A mixin trait for things which have class attributes
+
+=head1 DESCRIPTION
+
+This trait is like L<Class::MOP::Mixin::HasAttributes>, except that it works
+with class attributes instead of object attributes.
+
+See L<MooseX::ClassAttribute::Trait::Class> and
+L<MooseX::ClassAttribute::Trait::Role> for API details.
+
+=head1 AUTHOR
+
+Dave Rolsky, C<< <autarch@urth.org> >>
+
+=head1 BUGS
+
+See L<MooseX::ClassAttribute> for details.
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2007-2008 Dave Rolsky, All Rights Reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

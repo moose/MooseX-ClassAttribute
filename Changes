@@ -3,6 +3,11 @@
 - Roles can now have class attributes, which will be fully initialized when
   the role is applied to a class.
 
+- Many modules have been renamed from MooseX::ClassAttribute::Role::Meta::* to
+  MooseX::ClassAttribute::Trait::*.
+
+- Deprecated the get_class_attribute_map method.
+
 
 0.10   2009-08-26
 

@@ -22,3 +22,33 @@ sub new {
 }
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+MooseX::ClassAttribute::Meta::Role::Attribute - An attribute metaclass for class attributes in roles
+
+=head1 DESCRIPTION
+
+This class overrides L<Moose::Meta::Role::Attribute> to support class
+attribute declaration in roles.
+
+=head1 AUTHOR
+
+Dave Rolsky, C<< <autarch@urth.org> >>
+
+=head1 BUGS
+
+See L<MooseX::ClassAttribute> for details.
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2007-2008 Dave Rolsky, All Rights Reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

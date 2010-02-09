@@ -231,7 +231,7 @@ __END__
 
 =head1 NAME
 
-MooseX::ClassAttribute::Trait::Class - A metaclass role for classes with class attributes
+MooseX::ClassAttribute::Trait::Class - A trait for classes with class attributes
 
 =head1 SYNOPSIS
 
@@ -256,8 +256,6 @@ C<Class::MOP::Class> or C<Moose::Meta::Class> for regular attributes.
 =head2 $meta->get_class_attribute($name)
 
 =head2 $meta->get_class_attribute_list()
-
-=head2 $meta->get_class_attribute_map()
 
 These methods operate on the current metaclass only.
 
