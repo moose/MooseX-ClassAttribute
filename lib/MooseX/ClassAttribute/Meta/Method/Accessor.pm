@@ -114,6 +114,8 @@ sub _inline_get_old_value_for_trigger {
 
 1;
 
+__END__
+
 =pod
 
 =head1 NAME
