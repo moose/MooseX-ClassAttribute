@@ -129,8 +129,8 @@ sub get_all_class_attributes {
     my %attrs
         = map {
         my $meta = Class::MOP::class_of($_);
-        $meta && $meta->can('get_class_attribute_map')
-            ? %{ $meta->get_class_attribute_map() }
+        $meta && $meta->can('_class_attribute_map')
+            ? %{ $meta->_class_attribute_map() }
             : ()
         }
         reverse $self->linearized_isa;
