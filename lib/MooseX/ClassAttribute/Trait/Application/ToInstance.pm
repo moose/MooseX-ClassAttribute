@@ -9,10 +9,10 @@ use namespace::autoclean;
 use Moose::Role;
 
 after apply => sub {
-    shift->apply_class_attributes(@_);
+    shift->_apply_class_attributes(@_);
 };
 
-sub apply_class_attributes {
+sub _apply_class_attributes {
     my $self   = shift;
     my $role   = shift;
     my $object = shift;

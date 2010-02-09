@@ -7,7 +7,7 @@ use namespace::autoclean;
 use Moose::Role;
 
 after apply_attributes => sub {
-    shift->apply_class_attributes(@_);
+    shift->_apply_class_attributes(@_);
 };
 
 1;

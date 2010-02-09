@@ -17,9 +17,13 @@ plan tests => scalar @modules;
 
 my %trustme = (
     'MooseX::ClassAttribute' => [ 'init_meta', 'class_has' ],
+    'MooseX::ClassAttribute::Meta::Method::Accessor' => ['.+'],
+    'MooseX::ClassAttribute::Meta::Role::Attribute'  => ['new'],
     'MooseX::ClassAttribute::Trait::Class' =>
         ['compute_all_applicable_class_attributes'],
-    'MooseX::ClassAttribute::Meta::Method::Accessor' => ['.+']
+    'MooseX::ClassAttribute::Trait::Mixin::HasClassAttributes' => [
+        qw( add_class_attribute get_class_attribute_map remove_class_attribute )
+    ],
 );
 
 for my $module ( sort @modules ) {

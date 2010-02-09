@@ -12,7 +12,7 @@ use Moose::Role;
 
 with 'MooseX::ClassAttribute::Trait::Application';
 
-sub apply_class_attributes {
+sub _apply_class_attributes {
     my $self  = shift;
     my $role1 = shift;
     my $role2 = shift;
