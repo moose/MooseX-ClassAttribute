@@ -9,7 +9,7 @@ use Moose::Role;
 has _class_attribute_map => (
     traits  => ['Hash'],
     is      => 'ro',
-    isa     => 'HashRef[Moose::Meta::Attribute]',
+    isa     => 'HashRef[Class::MOP::Mixin::AttributeCore]',
     handles => {
         '_add_class_attribute'     => 'set',
         'has_class_attribute'      => 'exists',

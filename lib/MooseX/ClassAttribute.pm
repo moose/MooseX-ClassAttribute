@@ -9,6 +9,10 @@ our $AUTHORITY = 'cpan:DROLSKY';
 use Moose 0.89 ();
 use Moose::Exporter;
 use MooseX::ClassAttribute::Role::Meta::Class;
+use MooseX::ClassAttribute::Role::Meta::Role;
+use MooseX::ClassAttribute::Role::Meta::Application::ToClass;
+use MooseX::ClassAttribute::Role::Meta::Application::ToRole;
+use MooseX::ClassAttribute::Role::Meta::Application::ToInstance;
 
 Moose::Exporter->setup_import_methods( with_meta => ['class_has'] );
 
@@ -23,6 +27,13 @@ sub init_meta {
         },
         role_metaroles => {
             role => ['MooseX::ClassAttribute::Role::Meta::Role'],
+            application_to_class =>
+                ['MooseX::ClassAttribute::Role::Meta::Application::ToClass'],
+            application_to_role =>
+                ['MooseX::ClassAttribute::Role::Meta::Application::ToRole'],
+            application_to_instance => [
+                'MooseX::ClassAttribute::Role::Meta::Application::ToInstance'
+            ],
         },
     );
 }

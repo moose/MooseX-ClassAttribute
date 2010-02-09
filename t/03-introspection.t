@@ -29,6 +29,7 @@ my @ca = qw( Delegatee
     Built
     LazyBuilt
     Triggerish
+    TriggerRecord
 );
 
 is_deeply(

@@ -7,7 +7,6 @@ use Scalar::Util qw( isweak );
 use Test::More;
 
 use vars qw($Lazy);
-$Lazy = 0;
 
 our %Attrs = (
     ObjectCount => {
@@ -75,6 +74,10 @@ our %Attrs = (
         is      => 'rw',
         trigger => sub { shift->_CallTrigger(@_) },
     },
+    TriggerRecord => {
+        is      => 'ro',
+        default => sub { [] },
+    },
 );
 
 {
@@ -103,10 +106,8 @@ our %Attrs = (
 
     sub _BuildIt {42}
 
-    our @Triggered;
-
     sub _CallTrigger {
-        push @Triggered, [@_];
+        push @{ $_[0]->TriggerRecord() }, [@_];
     }
 
     sub make_immutable {
@@ -154,49 +155,55 @@ our %Attrs = (
 }
 
 sub run_tests {
-    my $class = shift || 'HasClassAttribute';
+    my $thing = shift || 'HasClassAttribute';
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
+    $Lazy = 0;
+
+    my $count = ref $thing ? 1 : 0;
+
     {
         is(
-            $class->ObjectCount(), 0,
+            $thing->ObjectCount(), $count,
             'ObjectCount() is 0'
         );
 
-        my $hca1 = $class->new();
-        is(
-            $hca1->size(), 5,
-            'size is 5 - object attribute works as expected'
-        );
-        is(
-            $class->ObjectCount(), 1,
-            'ObjectCount() is 1'
-        );
+        unless ( ref $thing ) {
+            my $hca1 = $thing->new();
+            is(
+                $hca1->size(), 5,
+                'size is 5 - object attribute works as expected'
+            );
+            is(
+                $thing->ObjectCount(), 1,
+                'ObjectCount() is 1'
+            );
 
-        my $hca2 = $class->new( size => 10 );
-        is(
-            $hca2->size(), 10,
-            'size is 10 - object attribute can be set via constructor'
-        );
-        is(
-            $class->ObjectCount(), 2,
-            'ObjectCount() is 2'
-        );
-        is(
-            $hca2->ObjectCount(), 2,
-            'ObjectCount() is 2 - can call class attribute accessor on object'
-        );
+            my $hca2 = $thing->new( size => 10 );
+            is(
+                $hca2->size(), 10,
+                'size is 10 - object attribute can be set via constructor'
+            );
+            is(
+                $thing->ObjectCount(), 2,
+                'ObjectCount() is 2'
+            );
+            is(
+                $hca2->ObjectCount(), 2,
+                'ObjectCount() is 2 - can call class attribute accessor on object'
+            );
+        }
     }
 
-    {
-        my $hca3 = $class->new( ObjectCount => 20 );
+    unless ( ref $thing ) {
+        my $hca3 = $thing->new( ObjectCount => 20 );
         is(
             $hca3->ObjectCount(), 3,
             'class attributes passed to the constructor do not get set in the object'
         );
         is(
-            $class->ObjectCount(), 3,
+            $thing->ObjectCount(), 3,
             'class attributes are not affected by constructor params'
         );
     }
@@ -204,12 +211,12 @@ sub run_tests {
     {
         my $object = bless {}, 'Thing';
 
-        $class->WeakAttribute($object);
+        $thing->WeakAttribute($object);
 
         undef $object;
 
         ok(
-            !defined $class->WeakAttribute(),
+            !defined $thing->WeakAttribute(),
             'weak class attributes are weak'
         );
     }
@@ -221,8 +228,8 @@ sub run_tests {
         );
 
         is(
-            $class->LazyAttribute(), 1,
-            '$class->LazyAttribute() is 1'
+            $thing->LazyAttribute(), 1,
+            '$thing->LazyAttribute() is 1'
         );
 
         is(
@@ -232,7 +239,7 @@ sub run_tests {
     }
 
     {
-        eval { $class->ReadOnlyAttribute(20) };
+        eval { $thing->ReadOnlyAttribute(20) };
         like(
             $@, qr/\QCannot assign a value to a read-only accessor/,
             'cannot set read-only class attribute'
@@ -248,97 +255,95 @@ sub run_tests {
 
     {
         ok(
-            !$class->HasM(),
+            !$thing->HasM(),
             'HasM() returns false before M is set'
         );
 
-        $class->SetM(22);
+        $thing->SetM(22);
 
         ok(
-            $class->HasM(),
+            $thing->HasM(),
             'HasM() returns true after M is set'
         );
         is(
-            $class->M(), 22,
+            $thing->M(), 22,
             'M() returns 22'
         );
 
-        $class->ClearM();
+        $thing->ClearM();
 
         ok(
-            !$class->HasM(),
+            !$thing->HasM(),
             'HasM() returns false after M is cleared'
         );
     }
 
     {
         isa_ok(
-            $class->Delegatee(), 'Delegatee',
+            $thing->Delegatee(), 'Delegatee',
             'has a Delegetee object'
         );
         is(
-            $class->units(), 5,
+            $thing->units(), 5,
             'units() delegates to Delegatee and returns 5'
         );
     }
 
     {
-        my @ids = $class->IdsInMapping();
+        my @ids = $thing->IdsInMapping();
         is(
             scalar @ids, 0,
             'there are no keys in the mapping yet'
         );
 
         ok(
-            !$class->ExistsInMapping('a'),
+            !$thing->ExistsInMapping('a'),
             'key does not exist in mapping'
         );
 
-        $class->SetMapping( a => 20 );
+        $thing->SetMapping( a => 20 );
 
         ok(
-            $class->ExistsInMapping('a'),
+            $thing->ExistsInMapping('a'),
             'key does exist in mapping'
         );
 
         is(
-            $class->GetMapping('a'), 20,
+            $thing->GetMapping('a'), 20,
             'value for a in mapping is 20'
         );
     }
 
     {
         is(
-            $class->Built(), 42,
+            $thing->Built(), 42,
             'attribute with builder works'
         );
 
         is(
-            $class->LazyBuilt(), 42,
+            $thing->LazyBuilt(), 42,
             'attribute with lazy builder works'
         );
     }
 
     {
-        $class->Triggerish(42);
-        my $triggered = do { no strict 'refs'; \@{ $class . '::Triggered' } };
-        is( scalar @{$triggered}, 1, 'trigger was called' );
-        is( $class->Triggerish(), 42, 'Triggerish is now 42' );
+        $thing->Triggerish(42);
 
-        $class->Triggerish(84);
-        is( $class->Triggerish(), 84, 'Triggerish is now 84' );
+        is( scalar @{ $thing->TriggerRecord() }, 1, 'trigger was called' );
+        is( $thing->Triggerish(), 42, 'Triggerish is now 42' );
+
+        $thing->Triggerish(84);
+        is( $thing->Triggerish(), 84, 'Triggerish is now 84' );
 
         is_deeply(
-            $triggered,
+            $thing->TriggerRecord(),
             [
-                [ $class, qw( 42 ) ],
-                [ $class, qw( 84 42 ) ],
+                [ $thing, qw( 42 ) ],
+                [ $thing, qw( 84 42 ) ],
             ],
             'trigger passes old value correctly'
         );
     }
-
-    done_testing();
 }
 
 1;
