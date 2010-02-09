@@ -86,13 +86,13 @@ This module allows you to declare class attributes in exactly the same
 way as object attributes, using C<class_has()> instead of C<has()>.
 
 You can use any feature of Moose's attribute declarations, including
-overriding a parent's attributes, delegation (C<handles>), and
-attribute metaclasses, and it should just work. The one exception is
-the "required" flag, which is not allowed for class attributes.
+overriding a parent's attributes, delegation (C<handles>), attribute traits,
+etc. All features should just work. The one exception is the "required" flag,
+which is not allowed for class attributes.
 
 The accessor methods for class attribute may be called on the class
 directly, or on objects of that class. Passing a class attribute to
-the constructor will not set it.
+the constructor will not set that attribute.
 
 =head1 FUNCTIONS
 
@@ -120,7 +120,14 @@ attributes.
 
 This module should work with most attribute metaclasses and traits,
 but it's possible that conflicts could occur. This module has been
-tested to work with C<MooseX::AttributeHelpers>.
+tested to work with Moose's native traits.
+
+=head2 Class Attributes in Roles
+
+You can add a class attribute to a role. When that role is applied to a class,
+the class will have the relevant class attributes added. Note that attribute
+defaults will be calculated when the class attribute is composed into the
+class.
 
 =head1 DONATIONS
 
