@@ -1,3 +1,9 @@
+0.11
+
+- Roles can now have class attributes, which will be fully initialized when
+  the role is applied to a class.
+
+
 0.10   2009-08-26
 
 - Fixed to make triggers work with Moose 0.89+, and made triggers pass the old
