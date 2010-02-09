@@ -3,6 +3,8 @@ package MooseX::ClassAttribute::Trait::Application::ToRole;
 use strict;
 use warnings;
 
+our $VERSION   = '0.10';
+
 use Moose::Util::MetaRole;
 use MooseX::ClassAttribute::Trait::Application::ToClass;
 use MooseX::ClassAttribute::Trait::Application::ToInstance;

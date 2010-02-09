@@ -3,6 +3,8 @@ package MooseX::ClassAttribute::Meta::Role::Attribute;
 use strict;
 use warnings;
 
+our $VERSION   = '0.10';
+
 use List::MoreUtils qw( uniq );
 
 use namespace::autoclean;

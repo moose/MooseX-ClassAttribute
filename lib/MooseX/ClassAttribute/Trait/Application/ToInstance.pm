@@ -3,7 +3,7 @@ package MooseX::ClassAttribute::Trait::Application::ToInstance;
 use strict;
 use warnings;
 
-use Class::MOP;
+our $VERSION   = '0.10';
 
 use namespace::autoclean;
 use Moose::Role;
