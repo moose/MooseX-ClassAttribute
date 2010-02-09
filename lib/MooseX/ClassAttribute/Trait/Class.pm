@@ -298,17 +298,17 @@ you're doing some deep hacking. They are named as public methods
 solely because they are used by other meta roles and classes in this
 distribution.
 
-=head2 inline_class_slot_access($name)
+=head2 $meta->inline_class_slot_access($name)
 
-=head2 inline_get_class_slot_value($name)
+=head2 $meta->inline_get_class_slot_value($name)
 
-=head2 inline_set_class_slot_value($name, $val_name)
+=head2 $meta->inline_set_class_slot_value($name, $val_name)
 
-=head2 inline_is_class_slot_initialized($name)
+=head2 $meta->inline_is_class_slot_initialized($name)
 
-=head2 inline_deinitialize_class_slot($name)
+=head2 $meta->inline_deinitialize_class_slot($name)
 
-=head2 inline_weaken_class_slot_value($name)
+=head2 $meta->inline_weaken_class_slot_value($name)
 
 These methods return code snippets for inlining.
 
