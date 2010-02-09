@@ -8,6 +8,8 @@
 
 - Deprecated the get_class_attribute_map method.
 
+- Added a version number to every .pm file.
+
 
 0.10   2009-08-26
 
