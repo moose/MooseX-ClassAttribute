@@ -1,4 +1,4 @@
-package MooseX::ClassAttribute::Role::Meta::Attribute;
+package MooseX::ClassAttribute::Trait::Attribute;
 
 use strict;
 use warnings;
@@ -133,7 +133,7 @@ __END__
 
 =head1 NAME
 
-MooseX::ClassAttribute::Role::Meta::Attribute - An attribute role for classes with class attributes
+MooseX::ClassAttribute::Trait::Attribute - An attribute role for classes with class attributes
 
 =head1 DESCRIPTION
 

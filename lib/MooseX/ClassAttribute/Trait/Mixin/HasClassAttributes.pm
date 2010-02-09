@@ -1,4 +1,4 @@
-package MooseX::ClassAttribute::Role::Meta::Mixin::HasClassAttributes;
+package MooseX::ClassAttribute::Trait::Mixin::HasClassAttributes;
 
 use strict;
 use warnings;

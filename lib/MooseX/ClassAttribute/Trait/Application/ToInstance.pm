@@ -1,22 +1,26 @@
-package MooseX::ClassAttribute::Role::Meta::Application::ToClass;
+package MooseX::ClassAttribute::Trait::Application::ToInstance;
 
 use strict;
 use warnings;
 
+use Class::MOP;
+
 use namespace::autoclean;
 use Moose::Role;
 
-with 'MooseX::ClassAttribute::Role::Meta::Application';
+after apply => sub {
+    shift->apply_class_attributes(@_);
+};
 
 sub apply_class_attributes {
-    my $self  = shift;
-    my $role  = shift;
-    my $class = shift;
+    my $self   = shift;
+    my $role   = shift;
+    my $object = shift;
 
-    $class = Moose::Util::MetaRole::apply_metaclass_roles(
-        for             => $class,
+    my $class = Moose::Util::MetaRole::apply_metaclass_roles(
+        for             => ref $object,
         class_metaroles => {
-            class => ['MooseX::ClassAttribute::Role::Meta::Class'],
+            class => ['MooseX::ClassAttribute::Trait::Class'],
         },
     );
 

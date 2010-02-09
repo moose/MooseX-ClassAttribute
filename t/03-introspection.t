@@ -15,8 +15,8 @@ ok(
 
 ok(
     HasClassAttribute->meta()->get_class_attribute('ObjectCount')->meta()
-        ->does_role('MooseX::ClassAttribute::Role::Meta::Attribute'),
-    'get_class_attribute_list returns an object which does the MooseX::ClassAttribute::Role::Meta::Attribute role'
+        ->does_role('MooseX::ClassAttribute::Trait::Attribute'),
+    'get_class_attribute_list returns an object which does the MooseX::ClassAttribute::Trait::Attribute role'
 );
 
 my @ca = qw( Delegatee

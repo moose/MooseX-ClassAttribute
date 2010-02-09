@@ -15,7 +15,7 @@ sub new {
 
     $options{traits} = [
         uniq( @{ $options{traits} || [] } ),
-        'MooseX::ClassAttribute::Role::Meta::Attribute'
+        'MooseX::ClassAttribute::Trait::Attribute'
     ];
 
     return $class->SUPER::new( $name, %options );

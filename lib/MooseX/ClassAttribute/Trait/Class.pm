@@ -1,15 +1,15 @@
-package MooseX::ClassAttribute::Role::Meta::Class;
+package MooseX::ClassAttribute::Trait::Class;
 
 use strict;
 use warnings;
 
-use MooseX::ClassAttribute::Role::Meta::Attribute;
+use MooseX::ClassAttribute::Trait::Attribute;
 use Scalar::Util qw( blessed );
 
 use namespace::autoclean;
 use Moose::Role;
 
-with 'MooseX::ClassAttribute::Role::Meta::Mixin::HasClassAttributes';
+with 'MooseX::ClassAttribute::Trait::Mixin::HasClassAttributes';
 
 has _class_attribute_values => (
     traits  => ['Hash'],
@@ -87,10 +87,10 @@ sub _process_new_class_attribute {
     my %p    = @_;
 
     if ( $p{traits} ) {
-        push @{ $p{traits} }, 'MooseX::ClassAttribute::Role::Meta::Attribute';
+        push @{ $p{traits} }, 'MooseX::ClassAttribute::Trait::Attribute';
     }
     else {
-        $p{traits} = ['MooseX::ClassAttribute::Role::Meta::Attribute'];
+        $p{traits} = ['MooseX::ClassAttribute::Trait::Attribute'];
     }
 
     return Moose::Meta::Attribute->interpolate_class_and_new( $name, %p );
@@ -231,7 +231,7 @@ __END__
 
 =head1 NAME
 
-MooseX::ClassAttribute::Role::Meta::Class - A metaclass role for classes with class attributes
+MooseX::ClassAttribute::Trait::Class - A metaclass role for classes with class attributes
 
 =head1 SYNOPSIS
 

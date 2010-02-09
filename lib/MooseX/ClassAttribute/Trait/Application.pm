@@ -1,4 +1,4 @@
-package MooseX::ClassAttribute::Role::Meta::Application;
+package MooseX::ClassAttribute::Trait::Application;
 
 use strict;
 use warnings;

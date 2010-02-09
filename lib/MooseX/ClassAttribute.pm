@@ -8,11 +8,11 @@ our $AUTHORITY = 'cpan:DROLSKY';
 
 use Moose 0.89 ();
 use Moose::Exporter;
-use MooseX::ClassAttribute::Role::Meta::Class;
-use MooseX::ClassAttribute::Role::Meta::Role;
-use MooseX::ClassAttribute::Role::Meta::Application::ToClass;
-use MooseX::ClassAttribute::Role::Meta::Application::ToRole;
-use MooseX::ClassAttribute::Role::Meta::Application::ToInstance;
+use MooseX::ClassAttribute::Trait::Class;
+use MooseX::ClassAttribute::Trait::Role;
+use MooseX::ClassAttribute::Trait::Application::ToClass;
+use MooseX::ClassAttribute::Trait::Application::ToRole;
+use MooseX::ClassAttribute::Trait::Application::ToInstance;
 
 Moose::Exporter->setup_import_methods( with_meta => ['class_has'] );
 
@@ -23,16 +23,16 @@ sub init_meta {
     return Moose::Util::MetaRole::apply_metaclass_roles(
         for             => $p{for_class},
         class_metaroles => {
-            class => ['MooseX::ClassAttribute::Role::Meta::Class'],
+            class => ['MooseX::ClassAttribute::Trait::Class'],
         },
         role_metaroles => {
-            role => ['MooseX::ClassAttribute::Role::Meta::Role'],
+            role => ['MooseX::ClassAttribute::Trait::Role'],
             application_to_class =>
-                ['MooseX::ClassAttribute::Role::Meta::Application::ToClass'],
+                ['MooseX::ClassAttribute::Trait::Application::ToClass'],
             application_to_role =>
-                ['MooseX::ClassAttribute::Role::Meta::Application::ToRole'],
+                ['MooseX::ClassAttribute::Trait::Application::ToRole'],
             application_to_instance => [
-                'MooseX::ClassAttribute::Role::Meta::Application::ToInstance'
+                'MooseX::ClassAttribute::Trait::Application::ToInstance'
             ],
         },
     );
@@ -106,11 +106,11 @@ C<no MooseX::ClassAttribute> as well.
 =head2 Implementation and Immutability
 
 This module will add a role to your class's metaclass, See
-L<MooseX::ClassAttribute::Role::Meta::Class> for details. This role
+L<MooseX::ClassAttribute::Trait::Class> for details. This role
 provides introspection methods for class attributes.
 
 Class attributes themselves do the
-L<MooseX::ClassAttribute::Role::Meta::Attribute> role.
+L<MooseX::ClassAttribute::Trait::Attribute> role.
 
 There is also a L<MooseX::ClassAttribute::Meta::Method::Accessor>
 which provides part of the inlining implementation for class

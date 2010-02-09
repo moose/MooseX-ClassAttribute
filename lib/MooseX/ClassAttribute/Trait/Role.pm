@@ -1,4 +1,4 @@
-package MooseX::ClassAttribute::Role::Meta::Role;
+package MooseX::ClassAttribute::Trait::Role;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use Scalar::Util qw( blessed );
 use namespace::autoclean;
 use Moose::Role;
 
-with 'MooseX::ClassAttribute::Role::Meta::Mixin::HasClassAttributes';
+with 'MooseX::ClassAttribute::Trait::Mixin::HasClassAttributes';
 
 around add_class_attribute => sub {
     my $orig = shift;
@@ -39,7 +39,7 @@ __END__
 
 =head1 NAME
 
-MooseX::ClassAttribute::Role::Meta::Class - A metaclass role for classes with class attributes
+MooseX::ClassAttribute::Trait::Class - A metaclass role for classes with class attributes
 
 =head1 SYNOPSIS
 
