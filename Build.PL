@@ -7,7 +7,7 @@ my $builder = Module::Build->new(
     module_name => 'MooseX::ClassAttribute',
     license     => 'perl',
     requires    => {
-        'Moose'                => '0.97',
+        'Moose'                => '0.98',
         'namespace::autoclean' => '0',
     },
     build_requires => {
