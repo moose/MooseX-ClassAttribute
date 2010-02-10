@@ -1,3 +1,9 @@
+0.12   2010-02-10
+
+- Fixed so that applying a role with class attributes to an instance works
+  with Moose 0.98.
+
+
 0.11   2010-02-09
 
 - Roles can now have class attributes, which will be fully initialized when
