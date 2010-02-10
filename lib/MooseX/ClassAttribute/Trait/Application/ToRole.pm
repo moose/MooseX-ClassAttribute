@@ -7,7 +7,6 @@ our $VERSION   = '0.11';
 
 use Moose::Util::MetaRole;
 use MooseX::ClassAttribute::Trait::Application::ToClass;
-use MooseX::ClassAttribute::Trait::Application::ToInstance;
 
 use namespace::autoclean;
 use Moose::Role;
@@ -27,9 +26,6 @@ sub _apply_class_attributes {
                 ['MooseX::ClassAttribute::Trait::Application::ToClass'],
             application_to_role =>
                 ['MooseX::ClassAttribute::Trait::Application::ToRole'],
-            application_to_instance => [
-                'MooseX::ClassAttribute::Trait::Application::ToInstance'
-            ],
         },
     );
 
