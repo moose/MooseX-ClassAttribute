@@ -3,7 +3,7 @@ package MooseX::ClassAttribute::Meta::Method::Accessor;
 use strict;
 use warnings;
 
-our $VERSION   = '0.11';
+our $VERSION   = '0.12';
 
 use namespace::autoclean;
 use Moose;
