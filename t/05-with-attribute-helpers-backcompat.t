@@ -4,8 +4,8 @@ use warnings;
 use Test::More;
 
 BEGIN {
-    eval "use MooseX::AttributeHelpers 0.13;";
-    plan skip_all => 'This test requires MooseX::AttributeHelpers 0.13+'
+    eval "use MooseX::AttributeHelpers 0.23;";
+    plan skip_all => 'This test requires MooseX::AttributeHelpers 0.23+'
         if $@;
 }
 
