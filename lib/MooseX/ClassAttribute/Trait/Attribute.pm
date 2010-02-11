@@ -3,7 +3,7 @@ package MooseX::ClassAttribute::Trait::Attribute;
 use strict;
 use warnings;
 
-our $VERSION   = '0.12';
+our $VERSION   = '0.13';
 
 use MooseX::ClassAttribute::Meta::Method::Accessor;
 
