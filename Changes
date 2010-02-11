@@ -1,3 +1,9 @@
+0.13   2010-02-11
+
+- Fixed tests that failed if you had an older version of
+  MooseX::AttributeHelpers installed.
+
+
 0.12   2010-02-10
 
 - Fixed so that applying a role with class attributes to an instance works
