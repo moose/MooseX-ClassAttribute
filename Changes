@@ -1,3 +1,8 @@
+0.15   2010-07-14
+
+- Fix bad uri for bugtracker in metadata
+
+
 0.14   2010-07-14
 
 - Use modern Moose APIs, to avoid warnings with the next Moose release.
