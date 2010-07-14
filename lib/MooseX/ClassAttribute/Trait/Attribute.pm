@@ -3,8 +3,6 @@ package MooseX::ClassAttribute::Trait::Attribute;
 use strict;
 use warnings;
 
-our $VERSION   = '0.13';
-
 use MooseX::ClassAttribute::Meta::Method::Accessor;
 
 use namespace::autoclean;
@@ -129,13 +127,11 @@ around 'clear_value' => sub {
 
 1;
 
+# ABSTRACT: A trait for class attributes
+
 __END__
 
 =pod
-
-=head1 NAME
-
-MooseX::ClassAttribute::Trait::Attribute - A trait for class attributes
 
 =head1 DESCRIPTION
 
@@ -147,19 +143,8 @@ metaclasses, like C<MooseX::AttributeHelpers>.
 There are no new public methods implemented by this role. All it does
 is change the behavior of a number of existing methods.
 
-=head1 AUTHOR
-
-Dave Rolsky, C<< <autarch@urth.org> >>
-
 =head1 BUGS
 
 See L<MooseX::ClassAttribute> for details.
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2007-2010 Dave Rolsky, All Rights Reserved.
-
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
 
 =cut

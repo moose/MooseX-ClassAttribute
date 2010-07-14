@@ -3,8 +3,6 @@ package MooseX::ClassAttribute::Trait::Application::ToClass;
 use strict;
 use warnings;
 
-our $VERSION   = '0.13';
-
 use namespace::autoclean;
 use Moose::Role;
 
@@ -40,32 +38,19 @@ sub _apply_class_attributes {
 
 1;
 
+# ABSTRACT: A trait that supports applying class attributes to classes
+
 __END__
 
 =pod
-
-=head1 NAME
-
-MooseX::ClassAttribute::Trait::Application::ToClass - A trait that supports applying class attributes to classes
 
 =head1 DESCRIPTION
 
 This trait is used to allow the application of roles containing class
 attributes to classes.
 
-=head1 AUTHOR
-
-Dave Rolsky, C<< <autarch@urth.org> >>
-
 =head1 BUGS
 
 See L<MooseX::ClassAttribute> for details.
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2007-2010 Dave Rolsky, All Rights Reserved.
-
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
 
 =cut
