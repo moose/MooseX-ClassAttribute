@@ -13,26 +13,19 @@ use MooseX::ClassAttribute::Trait::Role;
 use MooseX::ClassAttribute::Trait::Application::ToClass;
 use MooseX::ClassAttribute::Trait::Application::ToRole;
 
-Moose::Exporter->setup_import_methods( with_meta => ['class_has'] );
-
-sub init_meta {
-    shift;
-    my %p = @_;
-
-    return Moose::Util::MetaRole::apply_metaclass_roles(
-        for             => $p{for_class},
-        class_metaroles => {
-            class => ['MooseX::ClassAttribute::Trait::Class'],
-        },
-        role_metaroles => {
-            role => ['MooseX::ClassAttribute::Trait::Role'],
-            application_to_class =>
-                ['MooseX::ClassAttribute::Trait::Application::ToClass'],
-            application_to_role =>
-                ['MooseX::ClassAttribute::Trait::Application::ToRole'],
-        },
-    );
-}
+Moose::Exporter->setup_import_methods(
+    with_meta       => ['class_has'],
+    class_metaroles => {
+        class => ['MooseX::ClassAttribute::Trait::Class'],
+    },
+    role_metaroles => {
+        role => ['MooseX::ClassAttribute::Trait::Role'],
+        application_to_class =>
+            ['MooseX::ClassAttribute::Trait::Application::ToClass'],
+        application_to_role =>
+            ['MooseX::ClassAttribute::Trait::Application::ToRole'],
+    },
+);
 
 sub class_has {
     my $meta    = shift;
