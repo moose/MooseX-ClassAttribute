@@ -1,3 +1,8 @@
+0.14   2010-07-14
+
+- Use modern Moose APIs, to avoid warnings with the next Moose release.
+
+
 0.13   2010-02-11
 
 - Fixed tests that failed if you had an older version of
