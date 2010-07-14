@@ -3,9 +3,6 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
-our $VERSION   = '0.13';
-our $AUTHORITY = 'cpan:DROLSKY';
-
 use Moose 0.98 ();
 use Moose::Exporter;
 use MooseX::ClassAttribute::Trait::Class;
