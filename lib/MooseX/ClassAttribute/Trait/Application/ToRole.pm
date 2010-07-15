@@ -16,7 +16,7 @@ sub _apply_class_attributes {
     my $role1 = shift;
     my $role2 = shift;
 
-    $role2 = Moose::Util::MetaRole::apply_metaclass_roles(
+    $role2 = Moose::Util::MetaRole::apply_metaroles(
         for            => $role2,
         role_metaroles => {
             role => ['MooseX::ClassAttribute::Trait::Role'],
