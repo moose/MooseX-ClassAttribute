@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
+use Test::Exception;
 
 BEGIN {
     unless (eval { require MooseX::Role::Parameterized }) {
