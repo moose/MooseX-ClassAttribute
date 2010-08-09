@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
+use Test::Exception;
 
 lives_ok {
     Bar->new->_connections;
