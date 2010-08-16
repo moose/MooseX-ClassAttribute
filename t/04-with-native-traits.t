@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More tests => 2;
 
 {
     package MyClass;
@@ -23,4 +23,3 @@ is( MyClass->counter(), 0 );
 MyClass->inc_counter();
 is( MyClass->counter(), 1 );
 
-done_testing();

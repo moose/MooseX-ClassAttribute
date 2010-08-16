@@ -1,13 +1,12 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More tests => 2;
 
-BEGIN {
-    eval "use MooseX::AttributeHelpers 0.23;";
-    plan skip_all => 'This test requires MooseX::AttributeHelpers 0.23+'
-        if $@;
-}
+use Test::Requires {
+    'MooseX::AttributeHelpers' => 0.23, # skip all if not installed
+};
+
 
 {
     package MyClass;
@@ -29,4 +28,3 @@ is( MyClass->counter(), 0 );
 MyClass->inc_counter();
 is( MyClass->counter(), 1 );
 
-done_testing();

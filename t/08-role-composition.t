@@ -1,13 +1,13 @@
 use strict;
 use warnings;
-use Test::More;
+
+use Test::More tests => 1;
 use Test::Exception;
 
 lives_ok {
     Bar->new->_connections;
 } 'finds a class attribute under role composition';
 
-done_testing;
 
 BEGIN {
 

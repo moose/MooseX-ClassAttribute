@@ -1,13 +1,12 @@
 use strict;
 use warnings;
-use Test::More;
+
+use Test::More tests => 3;
 use Test::Exception;
 
-BEGIN {
-    unless (eval { require MooseX::Role::Parameterized }) {
-        plan skip_all => 'This test needs MooseX::Role::Parameterized';
-    }
-}
+use Test::Requires {
+    'MooseX::Role::Parameterized' => 0.23, # skip all if not installed
+};
 
 {
     package Role;
@@ -34,4 +33,3 @@ lives_and {
     is $instance->foo, 'bar';
 } 'used class attribute from parameterized role';
 
-done_testing;
