@@ -3,9 +3,9 @@ use warnings;
 
 use Test::More;
 
-eval "use Test::Spelling";
-plan skip_all => "Test::Spelling required for testing POD coverage"
-    if $@;
+use Test::Requires {
+    'Test::Spelling' => '0.01', # skip all if not installed
+};
 
 my @stopwords;
 for (<DATA>) {
