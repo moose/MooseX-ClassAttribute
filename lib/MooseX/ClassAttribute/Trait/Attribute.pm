@@ -12,10 +12,6 @@ use Moose::Role;
 # because it overrides a lot of behavior. However, as a subclass it
 # won't cooperate with _other_ subclasses.
 
-around 'accessor_metaclass' => sub {
-    return 'MooseX::ClassAttribute::Meta::Method::Accessor';
-};
-
 around '_process_options' => sub {
     my $orig    = shift;
     my $class   = shift;
@@ -123,6 +119,48 @@ around 'clear_value' => sub {
 
     return $self->associated_class()
         ->clear_class_attribute_value( $self->name() );
+};
+
+around 'inline_get' => sub {
+    shift;
+    my $self = shift;
+
+    return $self->associated_class()
+        ->inline_get_class_slot_value( $self->slots() );
+};
+
+around 'inline_set' => sub {
+    shift;
+    my $self  = shift;
+    shift;
+    my $value = shift;
+
+    my $meta = $self->associated_class();
+
+    my $code
+        = $meta->inline_set_class_slot_value( $self->slots(), $value ) . ";";
+    $code
+        .= $meta->inline_weaken_class_slot_value( $self->slots(), $value )
+        . "    if ref $value;"
+        if $self->is_weak_ref();
+
+    return $code;
+};
+
+around 'inline_has' => sub {
+    shift;
+    my $self = shift;
+
+    return $self->associated_class()
+        ->inline_is_class_slot_initialized( $self->slots() );
+};
+
+around 'inline_clear' => sub {
+    shift;
+    my $self = shift;
+
+    return $self->associated_class()
+        ->inline_deinitialize_class_slot( $self->slots() );
 };
 
 1;

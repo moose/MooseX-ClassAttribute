@@ -1,3 +1,8 @@
+0.17   2010-09-26
+
+- Changes to work with (and require) Moose 1.09.
+
+
 0.16   2010-07-15
 
 - More warnings fixes for next Moose release.

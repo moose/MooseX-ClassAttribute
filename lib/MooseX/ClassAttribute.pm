@@ -3,7 +3,7 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
-use Moose 0.98 ();
+use Moose 1.09 ();
 use Moose::Exporter;
 use MooseX::ClassAttribute::Trait::Class;
 use MooseX::ClassAttribute::Trait::Role;
