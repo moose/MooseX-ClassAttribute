@@ -12,6 +12,7 @@ use Test::More tests => 2;
     class_has counter => (
         traits  => ['Counter'],
         is      => 'ro',
+        default => 0,
         handles => {
             inc_counter => 'inc',
         },
