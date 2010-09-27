@@ -1,3 +1,8 @@
+0.18
+
+- Changes to work with (and require) Moose 1.15.
+
+
 0.17   2010-09-26
 
 - Changes to work with (and require) Moose 1.09.
