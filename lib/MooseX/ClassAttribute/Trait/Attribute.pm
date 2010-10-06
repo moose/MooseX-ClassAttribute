@@ -3,8 +3,6 @@ package MooseX::ClassAttribute::Trait::Attribute;
 use strict;
 use warnings;
 
-use MooseX::ClassAttribute::Meta::Method::Accessor;
-
 use namespace::autoclean;
 use Moose::Role;
 

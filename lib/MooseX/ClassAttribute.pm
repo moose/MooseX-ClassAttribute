@@ -97,10 +97,6 @@ provides introspection methods for class attributes.
 Class attributes themselves do the
 L<MooseX::ClassAttribute::Trait::Attribute> role.
 
-There is also a L<MooseX::ClassAttribute::Meta::Method::Accessor>
-which provides part of the inlining implementation for class
-attributes.
-
 =head2 Cooperation with Metaclasses and Traits
 
 This module should work with most attribute metaclasses and traits,
