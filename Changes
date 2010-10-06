@@ -1,3 +1,10 @@
+0.19   2010-10-06
+
+- Removed references to MooseX::ClassAttribute::Meta::Method::Accessor, which
+  was removed in 0.18. This caused lots of test failures if you hadn't
+  installed a previous version of this distribution.
+
+
 0.18   2010-10-05
 
 - Changes to work with (and require) Moose 1.15.
