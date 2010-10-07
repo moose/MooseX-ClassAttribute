@@ -4,6 +4,10 @@ use warnings;
 use Test::More;
 use Test::Exception;
 
+use Test::Requires {
+    'MooseX::Role::Parameterized' => '0',
+};
+
 plan skip_all =>
     'This test will not pass without changes to MooseX::Role::Parmeterized';
 
