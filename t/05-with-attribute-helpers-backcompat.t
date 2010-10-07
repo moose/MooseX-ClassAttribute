@@ -4,7 +4,7 @@ use warnings;
 use Test::More tests => 2;
 
 use Test::Requires {
-    'MooseX::AttributeHelpers' => 0.23, # skip all if not installed
+    'MooseX::AttributeHelpers' => 0.23,
 };
 
 
