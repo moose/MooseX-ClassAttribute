@@ -1,3 +1,9 @@
+0.20   2010-10-07
+
+- A test file tried to load MooseX::Role::Parameterized, which was not listed
+  as a dep. Reported by Andreas Koenig. RT #61957.
+
+
 0.19   2010-10-06
 
 - Removed references to MooseX::ClassAttribute::Meta::Method::Accessor, which
