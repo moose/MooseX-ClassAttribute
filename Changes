@@ -1,3 +1,8 @@
+0.21   2010-10-29
+
+- Switch from Test::Exception to Test::Fatal.
+
+
 0.20   2010-10-07
 
 - A test file tried to load MooseX::Role::Parameterized, which was not listed
