@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Exception;
+use Test::Fatal;
 
 use Test::Requires {
     'MooseX::Role::Parameterized' => '0',
@@ -37,10 +37,13 @@ plan skip_all =>
 my $instance = Class->new();
 isa_ok( $instance, 'Class' );
 
-lives_and {
-    $instance->foo('bar');
-    is( $instance->foo(), 'bar' );
-}
-'used class attribute from parameterized role';
+is(
+    exception {
+        $instance->foo('bar');
+        is( $instance->foo(), 'bar' );
+    },
+    undef,
+    'used class attribute from parameterized role'
+);
 
 done_testing();
