@@ -1,8 +1,3 @@
-
-NEXT
-
--  The test suite now uses Test::Fatal instead of Test::Exception.
-
 0.20   2010-10-07
 
 - A test file tried to load MooseX::Role::Parameterized, which was not listed
