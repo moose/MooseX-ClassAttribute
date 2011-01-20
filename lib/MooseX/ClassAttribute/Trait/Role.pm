@@ -31,6 +31,10 @@ sub _attach_class_attribute {
     $attribute->attach_to_role($self);
 }
 
+sub composition_class_roles {
+  return 'MooseX::ClassAttribute::Trait::CompositeRole';
+}
+
 1;
 
 # ABSTRACT: A trait for roles with class attributes
