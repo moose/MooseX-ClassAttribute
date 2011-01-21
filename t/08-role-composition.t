@@ -29,7 +29,6 @@ use Test::More;
 }
 
 {
-    local $TODO = 'Class attributes are lost during role composition';
     can_ok( 'Bar', 'CA', );
 }
 
