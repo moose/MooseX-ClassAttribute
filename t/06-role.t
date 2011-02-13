@@ -45,7 +45,22 @@ use Moose::Util qw( apply_all_roles );
     }
 }
 
+is_deeply(
+    [ map { $_->name() } ClassWithRoleHCA->meta()->calculate_all_roles() ],
+    ['RoleHCA'],
+    'ClassWithRoleHCA does RoleHCA'
+);
+
 SharedTests::run_tests('ClassWithRoleHCA');
+
+ClassWithRoleHCA->meta()->make_immutable();
+
+is_deeply(
+    [ map { $_->name() } ClassWithRoleHCA->meta()->calculate_all_roles() ],
+    ['RoleHCA'],
+    'ClassWithRoleHCA (immutable) does RoleHCA'
+);
+
 
 # These next tests are aimed at testing to-role application followed by
 # to-class application
@@ -84,7 +99,21 @@ SharedTests::run_tests('ClassWithRoleHCA');
     }
 }
 
+is_deeply(
+    [ map { $_->name() } ClassWithRoleHCA->meta()->calculate_all_roles() ],
+    ['RoleHCA'],
+    'ClassWithRoleWithRoleHCA does RoleHCA'
+);
+
 SharedTests::run_tests('ClassWithRoleWithRoleHCA');
+
+ClassWithRoleWithRoleHCA->meta()->make_immutable();
+
+is_deeply(
+    [ map { $_->name() } ClassWithRoleHCA->meta()->calculate_all_roles() ],
+    ['RoleHCA'],
+    'ClassWithRoleWithRoleHCA (immutable) does RoleHCA'
+);
 
 {
     package InstanceWithRoleHCA;
@@ -108,8 +137,22 @@ my $instance = InstanceWithRoleHCA->new();
 
 apply_all_roles( $instance, 'RoleHCA' );
 
+is_deeply(
+    [ map { $_->name() } $instance->meta()->calculate_all_roles() ],
+    ['RoleHCA'],
+    '$instance does RoleHCA'
+);
+
 $instance->ObjectCount(1);
 
 SharedTests::run_tests($instance);
+
+$instance->meta()->make_immutable();
+
+is_deeply(
+    [ map { $_->name() } $instance->meta()->calculate_all_roles() ],
+    ['RoleHCA'],
+    '$instance (immutable) does RoleHCA'
+);
 
 done_testing();
