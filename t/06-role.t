@@ -45,9 +45,8 @@ use Moose::Util qw( apply_all_roles );
     }
 }
 
-is_deeply(
-    [ map { $_->name() } ClassWithRoleHCA->meta()->calculate_all_roles() ],
-    ['RoleHCA'],
+ok(
+    ClassWithRoleHCA->meta()->does_role('RoleHCA'),
     'ClassWithRoleHCA does RoleHCA'
 );
 
@@ -55,9 +54,8 @@ SharedTests::run_tests('ClassWithRoleHCA');
 
 ClassWithRoleHCA->meta()->make_immutable();
 
-is_deeply(
-    [ map { $_->name() } ClassWithRoleHCA->meta()->calculate_all_roles() ],
-    ['RoleHCA'],
+ok(
+    ClassWithRoleHCA->meta()->does_role('RoleHCA'),
     'ClassWithRoleHCA (immutable) does RoleHCA'
 );
 
@@ -72,6 +70,11 @@ is_deeply(
 
     with 'RoleHCA';
 }
+
+ok(
+    RoleWithRoleHCA->meta()->does_role('RoleHCA'),
+    'RoleWithRoleHCA does RoleHCA'
+);
 
 {
     package ClassWithRoleWithRoleHCA;
@@ -99,9 +102,8 @@ is_deeply(
     }
 }
 
-is_deeply(
-    [ map { $_->name() } ClassWithRoleHCA->meta()->calculate_all_roles() ],
-    ['RoleHCA'],
+ok(
+    ClassWithRoleWithRoleHCA->meta()->does_role('RoleHCA'),
     'ClassWithRoleWithRoleHCA does RoleHCA'
 );
 
@@ -109,9 +111,8 @@ SharedTests::run_tests('ClassWithRoleWithRoleHCA');
 
 ClassWithRoleWithRoleHCA->meta()->make_immutable();
 
-is_deeply(
-    [ map { $_->name() } ClassWithRoleHCA->meta()->calculate_all_roles() ],
-    ['RoleHCA'],
+ok(
+    ClassWithRoleWithRoleHCA->meta()->does_role('RoleHCA'),
     'ClassWithRoleWithRoleHCA (immutable) does RoleHCA'
 );
 
@@ -137,9 +138,8 @@ my $instance = InstanceWithRoleHCA->new();
 
 apply_all_roles( $instance, 'RoleHCA' );
 
-is_deeply(
-    [ map { $_->name() } $instance->meta()->calculate_all_roles() ],
-    ['RoleHCA'],
+ok(
+    $instance->meta()->does_role('RoleHCA'),
     '$instance does RoleHCA'
 );
 
@@ -149,9 +149,8 @@ SharedTests::run_tests($instance);
 
 $instance->meta()->make_immutable();
 
-is_deeply(
-    [ map { $_->name() } $instance->meta()->calculate_all_roles() ],
-    ['RoleHCA'],
+ok(
+    $instance->meta()->does_role('RoleHCA'),
     '$instance (immutable) does RoleHCA'
 );
 

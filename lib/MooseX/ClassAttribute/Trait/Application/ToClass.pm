@@ -8,7 +8,8 @@ use Moose::Role;
 
 with 'MooseX::ClassAttribute::Trait::Application';
 
-sub _apply_class_attributes {
+around apply => sub {
+    my $orig = shift;
     my $self  = shift;
     my $role  = shift;
     my $class = shift;
@@ -19,6 +20,14 @@ sub _apply_class_attributes {
             class => ['MooseX::ClassAttribute::Trait::Class'],
         },
     );
+
+    $self->$orig( $role, $class );
+};
+
+sub _apply_class_attributes {
+    my $self  = shift;
+    my $role  = shift;
+    my $class = shift;
 
     my $attr_metaclass = $class->attribute_metaclass();
 
