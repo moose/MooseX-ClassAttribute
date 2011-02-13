@@ -1,3 +1,10 @@
+0.23   2011-02-13
+
+- Fixed a bug where applying a role with class attributes didn't record the
+  role as actually being applied in the meta class (or role) to which it was
+  applied.
+
+
 0.22   2011-02-02
 
 - Explicitly require namespace::clean 0.20 to avoid various some bad
