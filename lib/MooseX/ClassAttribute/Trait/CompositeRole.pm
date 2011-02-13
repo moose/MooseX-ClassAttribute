@@ -8,6 +8,7 @@ use Moose::Util qw(does_role);
 
 use namespace::autoclean;
 use Moose::Role;
+
 with 'MooseX::ClassAttribute::Trait::Role';
 
 sub _merge_class_attributes {
