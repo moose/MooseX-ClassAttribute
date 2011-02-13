@@ -14,8 +14,8 @@ sub _merge_class_attributes {
     my $self = shift;
 
     my @all_attributes;
-    foreach my $role (@{ $self->get_roles }) {
-        if (does_role($role, 'MooseX::ClassAttribute::Trait::Role')) {
+    foreach my $role ( @{ $self->get_roles } ) {
+        if ( does_role( $role, 'MooseX::ClassAttribute::Trait::Role' ) ) {
             push @all_attributes,
                 map { $role->get_class_attribute($_) }
                 $role->get_class_attribute_list;
@@ -26,7 +26,7 @@ sub _merge_class_attributes {
 
     foreach my $attribute (@all_attributes) {
         my $name = $attribute->name;
-        if (exists $seen{$name}) {
+        if ( exists $seen{$name} ) {
             next if $seen{$name} == $attribute;
 
             require Moose;
@@ -46,10 +46,10 @@ sub _merge_class_attributes {
 }
 
 around apply_params => sub {
-    my ($orig, $self, @args) = @_;
+    my ( $orig, $self, @args ) = @_;
 
     my $metarole = Moose::Util::MetaRole::apply_metaroles(
-        for => $self->$orig(@args),
+        for            => $self->$orig(@args),
         role_metaroles => {
             application_to_class =>
                 ['MooseX::ClassAttribute::Trait::Application::ToClass'],
