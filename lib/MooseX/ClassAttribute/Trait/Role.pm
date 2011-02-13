@@ -32,7 +32,7 @@ sub _attach_class_attribute {
 }
 
 sub composition_class_roles {
-  return 'MooseX::ClassAttribute::Trait::CompositeRole';
+    return 'MooseX::ClassAttribute::Trait::Role::Composite';
 }
 
 1;

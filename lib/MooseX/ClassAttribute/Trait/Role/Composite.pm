@@ -1,4 +1,4 @@
-package MooseX::ClassAttribute::Trait::CompositeRole;
+package MooseX::ClassAttribute::Trait::Role::Composite;
 
 use strict;
 use warnings;
@@ -15,18 +15,19 @@ sub _merge_class_attributes {
     my $self = shift;
 
     my @all_attributes;
-    foreach my $role ( @{ $self->get_roles } ) {
+    foreach my $role ( @{ $self->get_roles() } ) {
         if ( does_role( $role, 'MooseX::ClassAttribute::Trait::Role' ) ) {
             push @all_attributes,
                 map { $role->get_class_attribute($_) }
-                $role->get_class_attribute_list;
+                $role->get_class_attribute_list();
         }
     }
 
     my %seen;
 
     foreach my $attribute (@all_attributes) {
-        my $name = $attribute->name;
+        my $name = $attribute->name();
+
         if ( exists $seen{$name} ) {
             next if $seen{$name} == $attribute;
 
@@ -37,8 +38,10 @@ sub _merge_class_attributes {
                     . "during composition. This is fatal error and cannot be disambiguated."
             );
         }
+
         $seen{$name} = $attribute;
     }
+
     foreach my $attribute (@all_attributes) {
         $self->add_class_attribute( $attribute->clone() );
     }
@@ -47,10 +50,11 @@ sub _merge_class_attributes {
 }
 
 around apply_params => sub {
-    my ( $orig, $self, @args ) = @_;
+    my $orig = shift;
+    my $self = shift;
 
     my $metarole = Moose::Util::MetaRole::apply_metaroles(
-        for            => $self->$orig(@args),
+        for            => $self->$orig(@_),
         role_metaroles => {
             application_to_class =>
                 ['MooseX::ClassAttribute::Trait::Application::ToClass'],
@@ -58,7 +62,9 @@ around apply_params => sub {
                 ['MooseX::ClassAttribute::Trait::Application::ToRole'],
         },
     );
-    $metarole->_merge_class_attributes;
+
+    $metarole->_merge_class_attributes();
+
     return $metarole;
 };
 
