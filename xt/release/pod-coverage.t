@@ -17,6 +17,8 @@ my %trustme = (
     'MooseX::ClassAttribute::Meta::Role::Attribute'  => ['new'],
     'MooseX::ClassAttribute::Trait::Class' =>
         ['compute_all_applicable_class_attributes'],
+    'MooseX::ClassAttribute::Trait::Role' =>
+        ['composition_class_roles'],
     'MooseX::ClassAttribute::Trait::Mixin::HasClassAttributes' => [
         qw( add_class_attribute get_class_attribute_map remove_class_attribute )
     ],
