@@ -10,8 +10,8 @@
 
 0.22   2011-02-02
 
-- Explicitly require namespace::clean 0.20 to avoid various some bad
-  interactions between namespace::clean and Package::Stash.
+- Explicitly require namespace::clean 0.20 to avoid some bad interactions
+  between namespace::clean and Package::Stash.
 
 
 0.21   2010-10-29
