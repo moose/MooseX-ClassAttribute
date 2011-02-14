@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::More;
 use Test::Fatal;
 
 {
@@ -29,3 +29,5 @@ is(
     undef,
     'Default builder in a native attribute trait is properly run when the attribute is defined with no standard accessors'
 );
+
+done_testing();

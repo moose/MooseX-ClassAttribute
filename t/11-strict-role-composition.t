@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More;
 use Test::Fatal;
 
 use Test::Requires {
@@ -50,3 +50,5 @@ Foo->normal_method();
         'Delegated method from native attribute trait is properly composed from a strict role'
     );
 }
+
+done_testing();
