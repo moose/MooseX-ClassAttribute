@@ -4,6 +4,9 @@
   role as actually being applied in the meta class (or role) to which it was
   applied.
 
+- Applying multiple roles to a class lost all class attributes from those
+  roles. Fixed by Andrew Rodland.
+
 
 0.22   2011-02-02
 
