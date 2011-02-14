@@ -53,8 +53,10 @@ around apply_params => sub {
     my $orig = shift;
     my $self = shift;
 
-    my $metarole = Moose::Util::MetaRole::apply_metaroles(
-        for            => $self->$orig(@_),
+    $self->$orig(@_);
+
+    $self = Moose::Util::MetaRole::apply_metaroles(
+        for            => $self,
         role_metaroles => {
             application_to_class =>
                 ['MooseX::ClassAttribute::Trait::Application::ToClass'],
@@ -63,9 +65,9 @@ around apply_params => sub {
         },
     );
 
-    $metarole->_merge_class_attributes();
+    $self->_merge_class_attributes();
 
-    return $metarole;
+    return $self;
 };
 
 1;
