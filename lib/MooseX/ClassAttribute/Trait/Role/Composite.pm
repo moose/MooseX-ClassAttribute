@@ -35,8 +35,8 @@ sub _merge_class_attributes {
             Moose->throw_error( "Role '"
                     . $self->name()
                     . "' has encountered a class attribute conflict "
-                    . "during composition. This is a fatal error and cannot be disambiguated."
-            );
+                    . "during composition. This is a fatal error and "
+                    . "cannot be disambiguated." );
         }
 
         $seen{$name} = $attribute;
