@@ -2,7 +2,7 @@
 
 - Fixed a bug where applying a role with class attributes didn't record the
   role as actually being applied in the meta class (or role) to which it was
-  applied. RT #59610.
+  applied. Reported by Karen Etheridge. RT #59610.
 
 - Applying multiple roles to a class lost all class attributes from those
   roles. Fixed by Andrew Rodland. RT #59572.
