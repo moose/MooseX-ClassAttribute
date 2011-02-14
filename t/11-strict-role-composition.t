@@ -17,11 +17,11 @@ use Test::Requires {
     use MooseX::ClassAttribute;
 
     class_has attr => (
+        traits  => ['Hash'],
         is      => 'ro',
         isa     => 'HashRef[Str]',
         lazy    => 1,
         default => sub { {} },
-        traits  => ['Hash'],
         handles => {
             has_attr => 'exists',
         },
