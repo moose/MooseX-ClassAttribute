@@ -1,4 +1,4 @@
-0.24
+0.24   2011-02-22
 
 - This release provides forward compatibility with Moose 1.99+. It will still
   work with Moose 1.23 as well. Partially based on work originally done by
