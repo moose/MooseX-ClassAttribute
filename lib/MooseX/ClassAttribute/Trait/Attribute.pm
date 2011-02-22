@@ -10,7 +10,7 @@ use Moose::Role;
 # because it overrides a lot of behavior. However, as a subclass it
 # won't cooperate with _other_ subclasses.
 
-around '_process_options' => sub {
+around _process_options => sub {
     my $orig    = shift;
     my $class   = shift;
     my $name    = shift;
@@ -33,7 +33,7 @@ around attach_to_class => sub {
         unless $self->is_lazy();
 };
 
-around 'detach_from_class' => sub {
+around detach_from_class => sub {
     my $orig = shift;
     my $self = shift;
     my $meta = shift;
@@ -55,7 +55,7 @@ sub _initialize {
     }
 }
 
-around 'default' => sub {
+around default => sub {
     my $orig = shift;
     my $self = shift;
 
@@ -68,7 +68,7 @@ around 'default' => sub {
     return $default;
 };
 
-around '_call_builder' => sub {
+around _call_builder => sub {
     shift;
     my $self  = shift;
     my $class = shift;
@@ -85,7 +85,7 @@ around '_call_builder' => sub {
             . "'" );
 };
 
-around 'set_value' => sub {
+around set_value => sub {
     shift;
     my $self = shift;
     shift;    # ignoring instance or class name
@@ -95,7 +95,7 @@ around 'set_value' => sub {
         ->set_class_attribute_value( $self->name() => $value );
 };
 
-around 'get_value' => sub {
+around get_value => sub {
     shift;
     my $self = shift;
 
@@ -103,7 +103,7 @@ around 'get_value' => sub {
         ->get_class_attribute_value( $self->name() );
 };
 
-around 'has_value' => sub {
+around has_value => sub {
     shift;
     my $self = shift;
 
@@ -111,7 +111,7 @@ around 'has_value' => sub {
         ->has_class_attribute_value( $self->name() );
 };
 
-around 'clear_value' => sub {
+around clear_value => sub {
     shift;
     my $self = shift;
 
@@ -119,7 +119,7 @@ around 'clear_value' => sub {
         ->clear_class_attribute_value( $self->name() );
 };
 
-around 'inline_get' => sub {
+around inline_get => sub {
     shift;
     my $self = shift;
 
@@ -127,7 +127,7 @@ around 'inline_get' => sub {
         ->inline_get_class_slot_value( $self->slots() );
 };
 
-around 'inline_set' => sub {
+around inline_set => sub {
     shift;
     my $self  = shift;
     shift;
@@ -145,7 +145,7 @@ around 'inline_set' => sub {
     return $code;
 };
 
-around 'inline_has' => sub {
+around inline_has => sub {
     shift;
     my $self = shift;
 
@@ -153,7 +153,7 @@ around 'inline_has' => sub {
         ->inline_is_class_slot_initialized( $self->slots() );
 };
 
-around 'inline_clear' => sub {
+around inline_clear => sub {
     shift;
     my $self = shift;
 
