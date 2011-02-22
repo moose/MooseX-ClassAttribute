@@ -22,25 +22,19 @@ around _process_options => sub {
     return $class->$orig( $name, $options );
 };
 
-around attach_to_class => sub {
-    my $orig = shift;
+after attach_to_class => sub {
     my $self = shift;
     my $meta = shift;
-
-    $self->$orig($meta);
 
     $self->_initialize($meta)
         unless $self->is_lazy();
 };
 
-around detach_from_class => sub {
-    my $orig = shift;
+before detach_from_class => sub {
     my $self = shift;
     my $meta = shift;
 
     $self->clear_value($meta);
-
-    $self->$orig($meta);
 };
 
 sub _initialize {
