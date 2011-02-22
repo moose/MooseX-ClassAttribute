@@ -119,47 +119,101 @@ around clear_value => sub {
         ->clear_class_attribute_value( $self->name() );
 };
 
-around inline_get => sub {
-    shift;
-    my $self = shift;
+if ( $Moose::VERSION < 1.99 ) {
+    around inline_get => sub {
+        shift;
+        my $self = shift;
 
-    return $self->associated_class()
-        ->inline_get_class_slot_value( $self->slots() );
-};
+        return $self->associated_class()
+            ->inline_get_class_slot_value( $self->slots() );
+    };
 
-around inline_set => sub {
-    shift;
-    my $self  = shift;
-    shift;
-    my $value = shift;
+    around inline_set => sub {
+        shift;
+        my $self = shift;
+        shift;
+        my $value = shift;
 
-    my $meta = $self->associated_class();
+        my $meta = $self->associated_class();
 
-    my $code
-        = $meta->inline_set_class_slot_value( $self->slots(), $value ) . ";";
-    $code
-        .= $meta->inline_weaken_class_slot_value( $self->slots(), $value )
-        . "    if ref $value;"
-        if $self->is_weak_ref();
+        my $code
+            = $meta->inline_set_class_slot_value( $self->slots(), $value )
+            . ";";
+        $code
+            .= $meta->inline_weaken_class_slot_value( $self->slots(), $value )
+            . "    if ref $value;"
+            if $self->is_weak_ref();
 
-    return $code;
-};
+        return $code;
+    };
 
-around inline_has => sub {
-    shift;
-    my $self = shift;
+    around inline_has => sub {
+        shift;
+        my $self = shift;
 
-    return $self->associated_class()
-        ->inline_is_class_slot_initialized( $self->slots() );
-};
+        return $self->associated_class()
+            ->inline_is_class_slot_initialized( $self->slots() );
+    };
 
-around inline_clear => sub {
-    shift;
-    my $self = shift;
+    around inline_clear => sub {
+        shift;
+        my $self = shift;
 
-    return $self->associated_class()
-        ->inline_deinitialize_class_slot( $self->slots() );
-};
+        return $self->associated_class()
+            ->inline_deinitialize_class_slot( $self->slots() );
+    };
+}
+else {
+    around _inline_instance_get => sub {
+        shift;
+        my $self = shift;
+
+        return $self->associated_class()
+            ->inline_get_class_slot_value( $self->slots() );
+    };
+
+    around _inline_instance_set => sub {
+        shift;
+        my $self = shift;
+        shift;
+        my $value = shift;
+
+        return $self->associated_class()
+            ->inline_set_class_slot_value( $self->slots(), $value );
+    };
+
+    around _inline_instance_has => sub {
+        shift;
+        my $self = shift;
+
+        return $self->associated_class()
+            ->inline_is_class_slot_initialized( $self->slots() );
+    };
+
+    around _inline_instance_clear => sub {
+        shift;
+        my $self = shift;
+
+        return $self->associated_class()
+            ->inline_deinitialize_class_slot( $self->slots() );
+    };
+
+    around _inline_weaken_value => sub {
+        shift;
+        my $self = shift;
+        shift;
+        my $value = shift;
+
+        return unless $self->is_weak_ref();
+
+        return (
+            $self->associated_class->inline_weaken_class_slot_value(
+                $self->slots(), $value
+            ),
+            'if ref ' . $value . ';',
+        );
+    };
+}
 
 1;
 
