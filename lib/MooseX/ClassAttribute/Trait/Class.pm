@@ -175,7 +175,7 @@ sub _class_attribute_var_name {
     return $self->name() . q'::__ClassAttributeValues';
 }
 
-sub inline_class_slot_access {
+sub _inline_class_slot_access {
     my $self = shift;
     my $name = shift;
 
@@ -185,42 +185,42 @@ sub inline_class_slot_access {
         . quotemeta($name) . '"}';
 }
 
-sub inline_get_class_slot_value {
+sub _inline_get_class_slot_value {
     my $self = shift;
     my $name = shift;
 
-    return $self->inline_class_slot_access($name);
+    return $self->_inline_class_slot_access($name);
 }
 
-sub inline_set_class_slot_value {
+sub _inline_set_class_slot_value {
     my $self     = shift;
     my $name     = shift;
     my $val_name = shift;
 
-    return $self->inline_class_slot_access($name) . ' = ' . $val_name;
+    return $self->_inline_class_slot_access($name) . ' = ' . $val_name;
 }
 
-sub inline_is_class_slot_initialized {
+sub _inline_is_class_slot_initialized {
     my $self = shift;
     my $name = shift;
 
-    return 'exists ' . $self->inline_class_slot_access($name);
+    return 'exists ' . $self->_inline_class_slot_access($name);
 }
 
-sub inline_deinitialize_class_slot {
+sub _inline_deinitialize_class_slot {
     my $self = shift;
     my $name = shift;
 
-    return 'delete ' . $self->inline_class_slot_access($name);
+    return 'delete ' . $self->_inline_class_slot_access($name);
 }
 
-sub inline_weaken_class_slot_value {
+sub _inline_weaken_class_slot_value {
     my $self = shift;
     my $name = shift;
 
     return
         'Scalar::Util::weaken( '
-        . $self->inline_class_slot_access($name) . ')';
+        . $self->_inline_class_slot_access($name) . ')';
 }
 
 1;
@@ -288,25 +288,6 @@ named class attribute.
 
 These methods operate on the storage for class attribute values, which
 is attached to the metaclass object.
-
-There's really no good reason for you to call these methods unless
-you're doing some deep hacking. They are named as public methods
-solely because they are used by other meta roles and classes in this
-distribution.
-
-=head2 $meta->inline_class_slot_access($name)
-
-=head2 $meta->inline_get_class_slot_value($name)
-
-=head2 $meta->inline_set_class_slot_value($name, $val_name)
-
-=head2 $meta->inline_is_class_slot_initialized($name)
-
-=head2 $meta->inline_deinitialize_class_slot($name)
-
-=head2 $meta->inline_weaken_class_slot_value($name)
-
-These methods return code snippets for inlining.
 
 There's really no good reason for you to call these methods unless
 you're doing some deep hacking. They are named as public methods
