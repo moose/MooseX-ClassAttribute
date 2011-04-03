@@ -25,12 +25,30 @@ use Test::More;
     package Bar;
     use Moose;
 
-    with( 'Role2', 'Role' );
+    with 'Role2', 'Role';
 }
 
 ok(
     Bar->can('CA'),
     'Class attributes are preserved during role composition'
+);
+
+{
+    package Role3;
+    use Moose::Role;
+    with 'Role';
+}
+
+{
+    package Baz;
+    use Moose;
+
+    with 'Role3';
+}
+
+ok(
+    Baz->can('CA'),
+    'Class attributes are preserved when role is applied to another role'
 );
 
 done_testing();
