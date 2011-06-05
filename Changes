@@ -1,4 +1,4 @@
-0.25
+{{$NEXT}}
 
 - Class attributes now have a definition context set, which means that errors
   thrown from generated methods associated with these attributes say something
