@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.25   2011-06-05
+
 - Class attributes now have a definition context set, which means that errors
   thrown from generated methods associated with these attributes say something
   like "X at accessor MyClass::ClassAttribute (defined at path/to/file line
