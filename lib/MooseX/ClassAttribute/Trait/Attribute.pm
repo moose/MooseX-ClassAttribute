@@ -42,7 +42,8 @@ sub _initialize {
     my $metaclass = shift;
 
     if ( $self->has_default() ) {
-        $self->set_value( undef, $self->default() );
+        $self->set_value( undef,
+            $self->default( $self->associated_class() ) );
     }
     elsif ( $self->has_builder() ) {
         $self->set_value( undef, $self->_call_builder( $metaclass->name() ) );
@@ -55,8 +56,8 @@ around default => sub {
 
     my $default = $self->$orig();
 
-    if ( $self->is_default_a_coderef() ) {
-        return $default->( $self->associated_class() );
+    if ( $self->is_default_a_coderef() && @_ ) {
+        return $default->(@_);
     }
 
     return $default;
