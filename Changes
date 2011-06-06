@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.26   2011-06-06
+
 - The default() method for class attributes always returned a value, even if
   the default was a subroutine ref, which isn't how the method works for
   regular attributes. This broke inlining with Moose HEAD.
