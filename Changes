@@ -1,5 +1,10 @@
 {{$NEXT}}
 
+- The default() method for class attributes always returned a value, even if
+  the default was a subroutine ref, which isn't how the method works for
+  regular attributes. This broke inlining with Moose HEAD.
+
+
 0.25   2011-06-05
 
 - Class attributes now have a definition context set, which means that errors
