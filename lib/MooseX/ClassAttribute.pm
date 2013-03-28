@@ -31,9 +31,17 @@ sub class_has {
 
     my $attrs = ref $name eq 'ARRAY' ? $name : [$name];
 
-    my %options = ( definition_context => Moose::Util::_caller_info(), @_ );
+    my %options = ( definition_context => _caller_info(), @_ );
 
     $meta->add_class_attribute( $_, %options ) for @{$attrs};
+}
+
+# Copied from Moose::Util in 2.06
+sub _caller_info {
+    my $level = @_ ? ($_[0] + 1) : 2;
+    my %info;
+    @info{qw(package file line)} = caller($level);
+    return \%info;
 }
 
 1;
