@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.27   2013-03-28
+
 - The latest Moose release (2.08) broke this module. This release fixes
   MooseX::ClassAttribute to work with both new and old Mooses. Reported by
   Jonathan Stowe. RT #84263.
