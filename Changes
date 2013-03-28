@@ -1,5 +1,10 @@
 {{$NEXT}}
 
+- The latest Moose release (2.08) broke this module. This release fixes
+  MooseX::ClassAttribute to work with both new and old Mooses. Reported by
+  Jonathan Stowe. RT #84263.
+
+
 0.26   2011-06-06
 
 - The default() method for class attributes always returned a value, even if
