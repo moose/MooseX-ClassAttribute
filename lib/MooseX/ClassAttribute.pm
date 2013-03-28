@@ -3,6 +3,11 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
+# This module doesn't really need these pragmas - this is just for the benefit
+# of prereq scanning.
+require namespace::clean 0.20;
+require namespace::autoclean 0.11;
+
 use Moose 2.00 ();
 use Moose::Exporter;
 use Moose::Util;
@@ -26,8 +31,8 @@ Moose::Exporter->setup_import_methods(
 );
 
 sub class_has {
-    my $meta    = shift;
-    my $name    = shift;
+    my $meta = shift;
+    my $name = shift;
 
     my $attrs = ref $name eq 'ARRAY' ? $name : [$name];
 
@@ -38,7 +43,7 @@ sub class_has {
 
 # Copied from Moose::Util in 2.06
 sub _caller_info {
-    my $level = @_ ? ($_[0] + 1) : 2;
+    my $level = @_ ? ( $_[0] + 1 ) : 2;
     my %info;
     @info{qw(package file line)} = caller($level);
     return \%info;
