@@ -38,7 +38,7 @@ use Moose::Util qw( apply_all_roles );
         $self->ObjectCount( $self->ObjectCount() + 1 );
     }
 
-    sub _BuildIt {42}
+    sub _BuildIt { 42 }
 
     sub _CallTrigger {
         push @{ $_[0]->TriggerRecord() }, [@_];
@@ -58,7 +58,6 @@ ok(
     ClassWithRoleHCA->meta()->does_role('RoleHCA'),
     'ClassWithRoleHCA (immutable) does RoleHCA'
 );
-
 
 # These next tests are aimed at testing to-role application followed by
 # to-class application
@@ -95,7 +94,7 @@ ok(
         $self->ObjectCount( $self->ObjectCount() + 1 );
     }
 
-    sub _BuildIt {42}
+    sub _BuildIt { 42 }
 
     sub _CallTrigger {
         push @{ $_[0]->TriggerRecord() }, [@_];
@@ -127,7 +126,7 @@ ok(
         default => 5,
     );
 
-    sub _BuildIt {42}
+    sub _BuildIt { 42 }
 
     sub _CallTrigger {
         push @{ $_[0]->TriggerRecord() }, [@_];

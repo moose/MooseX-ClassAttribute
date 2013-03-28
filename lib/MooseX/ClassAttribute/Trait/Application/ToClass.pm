@@ -9,7 +9,7 @@ use Moose::Role;
 with 'MooseX::ClassAttribute::Trait::Application';
 
 around apply => sub {
-    my $orig = shift;
+    my $orig  = shift;
     my $self  = shift;
     my $role  = shift;
     my $class = shift;

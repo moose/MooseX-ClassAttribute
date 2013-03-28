@@ -15,7 +15,7 @@ BEGIN { plan skip_all => 'This test fails with a syntax error' }
     use MooseX::ClassAttribute ();
 
     Moose::Exporter->setup_import_methods(
-        also => [ 'MooseX::ClassAttribute' ],
+        also => ['MooseX::ClassAttribute'],
     );
 }
 
@@ -23,13 +23,14 @@ BEGIN { plan skip_all => 'This test fails with a syntax error' }
     package MyClass;
 
     use Moose;
+
     # use MooseX::Foo;  # normal use
     MooseX::Foo->import;
 
     # Now theoretically, this should work -- the 'class_has' method
     # should have been imported via the MooseX package above.
     class_has attr => (
-        is => 'ro', isa => 'Str',
+        is      => 'ro', isa => 'Str',
         default => 'foo',
     );
 }

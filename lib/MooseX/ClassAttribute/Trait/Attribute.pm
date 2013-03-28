@@ -42,8 +42,10 @@ sub _initialize {
     my $metaclass = shift;
 
     if ( $self->has_default() ) {
-        $self->set_value( undef,
-            $self->default( $self->associated_class() ) );
+        $self->set_value(
+            undef,
+            $self->default( $self->associated_class() )
+        );
     }
     elsif ( $self->has_builder() ) {
         $self->set_value( undef, $self->_call_builder( $metaclass->name() ) );
@@ -134,8 +136,10 @@ if ( $Moose::VERSION < 1.99 ) {
         my $code
             = $meta->_inline_set_class_slot_value( $self->slots(), $value )
             . ";";
-        $code
-            .= $meta->_inline_weaken_class_slot_value( $self->slots(), $value )
+        $code .= $meta->_inline_weaken_class_slot_value(
+            $self->slots(),
+            $value
+            )
             . "    if ref $value;"
             if $self->is_weak_ref();
 

@@ -23,6 +23,7 @@ our %Attrs = (
         is   => 'rw',
         isa  => 'Int',
         lazy => 1,
+
         # The side effect is used to test that this was called
         # lazily.
         default => sub { $Lazy = 1 },
@@ -44,6 +45,7 @@ our %Attrs = (
         is      => 'rw',
         isa     => 'Delegatee',
         handles => [ 'units', 'color' ],
+
         # if it's not lazy it makes a new object before we define
         # Delegatee's attributes.
         lazy    => 1,
@@ -104,7 +106,7 @@ our %Attrs = (
         $self->ObjectCount( $self->ObjectCount() + 1 );
     }
 
-    sub _BuildIt {42}
+    sub _BuildIt { 42 }
 
     sub _CallTrigger {
         push @{ $_[0]->TriggerRecord() }, [@_];
@@ -329,8 +331,8 @@ sub run_tests {
     {
         $thing->Triggerish(42);
 
-        is( scalar @{ $thing->TriggerRecord() }, 1, 'trigger was called' );
-        is( $thing->Triggerish(), 42, 'Triggerish is now 42' );
+        is( scalar @{ $thing->TriggerRecord() }, 1,  'trigger was called' );
+        is( $thing->Triggerish(),                42, 'Triggerish is now 42' );
 
         $thing->Triggerish(84);
         is( $thing->Triggerish(), 84, 'Triggerish is now 84' );

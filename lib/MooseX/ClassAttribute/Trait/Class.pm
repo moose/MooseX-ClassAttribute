@@ -59,7 +59,7 @@ sub _post_add_class_attribute {
 }
 
 sub _attach_class_attribute {
-    my ($self, $attribute) = @_;
+    my ( $self, $attribute ) = @_;
     $attribute->attach_to_class($self);
 }
 
@@ -126,8 +126,7 @@ around remove_class_attribute => sub {
 sub get_all_class_attributes {
     my $self = shift;
 
-    my %attrs
-        = map {
+    my %attrs = map {
         my $meta = Class::MOP::class_of($_);
         $meta && $meta->can('_class_attribute_map')
             ? %{ $meta->_class_attribute_map() }
@@ -156,7 +155,7 @@ sub find_class_attribute_by_name {
 
         return $meta->get_class_attribute($name)
             if $meta->can('has_class_attribute')
-                && $meta->has_class_attribute($name);
+            && $meta->has_class_attribute($name);
     }
 
     return;
