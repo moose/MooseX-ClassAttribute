@@ -3,8 +3,6 @@ package MooseX::ClassAttribute::Meta::Role::Attribute;
 use strict;
 use warnings;
 
-use List::MoreUtils qw( uniq );
-
 use namespace::autoclean;
 use Moose;
 
@@ -14,12 +12,14 @@ sub new {
     my ( $class, $name, %options ) = @_;
 
     $options{traits} = [
-        uniq( @{ $options{traits} || [] } ),
+        _uniq( @{ $options{traits} || [] } ),
         'MooseX::ClassAttribute::Trait::Attribute'
     ];
 
     return $class->SUPER::new( $name, %options );
 }
+
+sub _uniq { keys %{ +{ map { $_ => undef } @_ } } }
 
 1;
 

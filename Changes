@@ -1,6 +1,7 @@
 {{$NEXT}}
 
 - repository migrated to the github moose organization
+- removed dependency on List::MoreUtils
 
 0.27   2013-03-28
 
