@@ -53,7 +53,6 @@ on 'develop' => sub {
   requires "Test::Pod::LinkCheck" => "0";
   requires "Test::Pod::No404s" => "0";
   requires "Test::Spelling" => "0.12";
-  requires "Test::Synopsis" => "0";
   requires "Test::Version" => "1";
   requires "blib" => "1.01";
   requires "perl" => "5.006";
