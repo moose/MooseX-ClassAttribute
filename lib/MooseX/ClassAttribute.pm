@@ -7,7 +7,7 @@ our $VERSION = '0.28';
 
 # This module doesn't really need these pragmas - this is just for the benefit
 # of prereq scanning.
-use namespace::clean 0.20 ();
+use namespace::clean 0.20     ();
 use namespace::autoclean 0.11 ();
 
 use Moose 2.00 ();

@@ -38,7 +38,7 @@ use Moose::Util qw( apply_all_roles );
         $self->ObjectCount( $self->ObjectCount() + 1 );
     }
 
-    sub _BuildIt { 42 }
+    sub _BuildIt {42}
 
     sub _CallTrigger {
         push @{ $_[0]->TriggerRecord() }, [@_];
@@ -94,7 +94,7 @@ ok(
         $self->ObjectCount( $self->ObjectCount() + 1 );
     }
 
-    sub _BuildIt { 42 }
+    sub _BuildIt {42}
 
     sub _CallTrigger {
         push @{ $_[0]->TriggerRecord() }, [@_];
@@ -126,7 +126,7 @@ ok(
         default => 5,
     );
 
-    sub _BuildIt { 42 }
+    sub _BuildIt {42}
 
     sub _CallTrigger {
         push @{ $_[0]->TriggerRecord() }, [@_];

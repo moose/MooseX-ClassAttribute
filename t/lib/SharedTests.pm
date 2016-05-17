@@ -106,7 +106,7 @@ our %Attrs = (
         $self->ObjectCount( $self->ObjectCount() + 1 );
     }
 
-    sub _BuildIt { 42 }
+    sub _BuildIt {42}
 
     sub _CallTrigger {
         push @{ $_[0]->TriggerRecord() }, [@_];
