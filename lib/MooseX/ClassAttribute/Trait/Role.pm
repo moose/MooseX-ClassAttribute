@@ -3,6 +3,8 @@ package MooseX::ClassAttribute::Trait::Role;
 use strict;
 use warnings;
 
+our $VERSION = '0.28';
+
 use MooseX::ClassAttribute::Meta::Role::Attribute;
 use Scalar::Util qw( blessed );
 

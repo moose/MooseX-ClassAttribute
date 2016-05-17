@@ -3,6 +3,8 @@ package MooseX::ClassAttribute::Meta::Role::Attribute;
 use strict;
 use warnings;
 
+our $VERSION = '0.28';
+
 use namespace::autoclean;
 use Moose;
 use List::Util 1.45 'uniq';

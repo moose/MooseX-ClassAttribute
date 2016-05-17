@@ -3,6 +3,8 @@ package MooseX::ClassAttribute::Trait::Role::Composite;
 use strict;
 use warnings;
 
+our $VERSION = '0.28';
+
 use Moose::Util::MetaRole;
 use Moose::Util qw(does_role);
 
