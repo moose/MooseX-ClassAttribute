@@ -3,7 +3,7 @@ package MooseX::ClassAttribute;
 use strict;
 use warnings;
 
-our $VERSION = '0.28';
+our $VERSION = '0.29';
 
 # This module doesn't really need these pragmas - this is just for the benefit
 # of prereq scanning.
