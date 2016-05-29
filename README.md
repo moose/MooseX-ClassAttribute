@@ -4,7 +4,7 @@ MooseX::ClassAttribute - Declare class attributes Moose-style
 
 # VERSION
 
-version 0.28
+version 0.29
 
 # SYNOPSIS
 
@@ -100,16 +100,15 @@ button at [http://www.urth.org/~autarch/fs-donation.html](http://www.urth.org/~a
 
 # AUTHOR
 
-Dave Rolsky &lt;autarch@urth.org>
+Dave Rolsky <autarch@urth.org>
 
 # CONTRIBUTORS
 
-- Andrew Rodland &lt;andrew@cleverdomain.org>
-- Karen Etheridge &lt;ether@cpan.org>
-- Karen Etheridge &lt;karen@etheridge.ca>
-- Rafael Kitover &lt;rkitover@cpan.org>
-- Robert Buels &lt;rmb32@cornell.edu>
-- Shawn M Moore &lt;sartak@gmail.com>
+- Andrew Rodland <andrew@cleverdomain.org>
+- Karen Etheridge <ether@cpan.org>
+- Rafael Kitover <rkitover@cpan.org>
+- Robert Buels <rmb32@cornell.edu>
+- Shawn M Moore <sartak@gmail.com>
 
 # COPYRIGHT AND LICENCE
 

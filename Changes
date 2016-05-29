@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.29     2016-05-29
+
 - Fix test prereqs on MooseX::AttributeHelpers and MooseX::Role::Strict.
 
 
