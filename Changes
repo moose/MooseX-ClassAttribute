@@ -2,9 +2,9 @@
 
 0.28     2016-05-16
 
-- Repository migrated to the github moose organization. (Karen Etherdige)
+- Repository migrated to the github moose organization. (Karen Etheridge)
 
-- Removed dependency on List::MoreUtils. (Karen Etherdige)
+- Removed dependency on List::MoreUtils. (Karen Etheridge)
 
 
 0.27   2013-03-28
