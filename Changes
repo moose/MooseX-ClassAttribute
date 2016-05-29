@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+- Fix test prereqs on MooseX::AttributeHelpers and MooseX::Role::Strict.
+
+
 0.28     2016-05-16
 
 - Repository migrated to the github moose organization. (Karen Etheridge)
