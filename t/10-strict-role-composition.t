@@ -6,9 +6,7 @@ use warnings;
 use Test::More 0.88;
 use Test::Fatal;
 
-use Test::Requires {
-    'MooseX::Role::Strict' => 0.01,
-};
+use Test::Needs 'MooseX::Role::Strict';
 
 {
     package Role;

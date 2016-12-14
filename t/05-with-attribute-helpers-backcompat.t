@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More 0.88;
 
-use Test::Requires 0.05 {
+use Test::Needs {
     'MooseX::AttributeHelpers' => 0.23,
 };
 
