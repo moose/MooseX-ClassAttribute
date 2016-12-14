@@ -7,7 +7,7 @@ use Test::Fatal;
 use Test::Needs 'MooseX::Role::Parameterized';
 
 plan skip_all =>
-    'This test will not pass without changes to MooseX::Role::Parmeterized';
+    'This test will not pass without changes to MooseX::Role::Parameterized';
 
 {
     package Role;
