@@ -3,7 +3,7 @@ use warnings;
 
 use lib 't/lib';
 
-use Test::More;
+use Test::More 0.88;
 
 # We just want the class definitions in here.
 use SharedTests;

@@ -4,7 +4,7 @@ use warnings;
 use lib 't/lib';
 
 use SharedTests;
-use Test::More;
+use Test::More 0.88;
 
 HasClassAttribute->meta()->make_immutable();
 Child->meta()->make_immutable();

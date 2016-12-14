@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More 0.88;
 
 BEGIN { plan skip_all => 'This test fails with a syntax error' }
 

@@ -4,7 +4,7 @@ use warnings;
 use lib 't/lib';
 
 use SharedTests;
-use Test::More;
+use Test::More 0.88;
 
 use Moose::Util qw( apply_all_roles );
 
